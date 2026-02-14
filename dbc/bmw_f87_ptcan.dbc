@@ -1,0 +1,96 @@
+VERSION ""
+
+NS_ :
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIGTYPE_VALTYPE_
+	SG_MUL_VAL_
+
+BS_: 500
+
+BU_: DME EPS DSC EGS
+
+BO_ 165 DME_EngineData: 8 DME
+ SG_ EngineRPM_Main : 23|12@0+ (0.25,0) [0|1023.75] "rpm" Vector__XXX
+ SG_ EngineRPM_Ext : 24|4@1+ (1,0) [0|15] "" Vector__XXX
+ SG_ EngineLoad : 32|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Counter_0A5 : 8|4@1+ (1,0) [0|14] "" Vector__XXX
+
+BO_ 217 DME_TorqueData: 8 DME
+ SG_ TorqueDemand : 16|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TorqueMode : 24|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TorqueStatus : 48|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TorqueFlag : 56|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Counter_0D9 : 8|8@1+ (1,0) [0|255] "" Vector__XXX
+
+BO_ 239 DSC_BrakePressure: 8 DSC
+ SG_ BrakePressure1 : 16|16@1+ (0.00390625,0) [0|255] "" Vector__XXX
+ SG_ BrakePressure2 : 40|16@1+ (0.00390625,0) [0|255] "" Vector__XXX
+ SG_ BrakeStatus : 32|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Counter_0EF : 8|4@1+ (1,0) [0|14] "" Vector__XXX
+
+BO_ 311 DME_PedalPosition: 2 DME
+ SG_ AccelPedalRaw : 8|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ AccelPedalStatus : 0|8@1+ (1,0) [0|255] "" Vector__XXX
+
+BO_ 435 EGS_GearPosition: 8 EGS
+ SG_ GearPosition : 24|8@1+ (1,0) [0|15] "" Vector__XXX
+ SG_ GearChecksum : 56|8@1+ (1,0) [0|255] "" Vector__XXX
+
+BO_ 770 EPS_SteeringAngle: 7 EPS
+ SG_ SteeringAngle : 16|16@1+ (0.1,-3276.8) [-3276.8|3276.7] "deg" Vector__XXX
+ SG_ SteeringCounter : 7|16@0+ (1,0) [0|65535] "" Vector__XXX
+
+CM_ BO_ 165 "DME engine data. RPM uses non-standard 13-bit encoding: rpm = (EngineRPM_Main + (EngineRPM_Ext == 8 ? 4096 : 0)) * 0.25. ~57Hz broadcast.";
+CM_ SG_ 165 EngineRPM_Main "12-bit RPM base value from B2[7:0]+B3[7:4]. Multiply by 0.25 for rpm. Add 4096 before scaling if EngineRPM_Ext == 8.";
+CM_ SG_ 165 EngineRPM_Ext "RPM range extension in B3[3:0]. Value 8 = add 4096 to EngineRPM_Main before scaling. Other values = no offset.";
+CM_ SG_ 165 EngineLoad "Coarse engine load indicator. Range 0x7B-0x8F observed.";
+CM_ BO_ 217 "DME torque request/output. TorqueDemand is 0 at idle, nonzero during active torque request. ~57Hz broadcast.";
+CM_ SG_ 217 TorqueDemand "Active torque demand. 0x00 at idle, 0x00-0xFB during throttle application.";
+CM_ SG_ 217 TorqueMode "Torque request level. 0x10 at idle, 0x10-0x15 during throttle (6 discrete states).";
+CM_ BO_ 239 "DSC brake pressure with two channels (front/rear or master/secondary). INVERSE encoding: value DECREASES when brake is applied. Baseline ~125.0 = no brake. ~29Hz broadcast.";
+CM_ SG_ 239 BrakePressure1 "Front/master cylinder brake pressure (8.8 fixed-point, B3=integer B2=fraction). Baseline ~125 at idle. brake_force = 125 - value.";
+CM_ SG_ 239 BrakePressure2 "Rear/secondary brake pressure (8.8 fixed-point, B6=integer B5=fraction). Baseline ~125 at idle. brake_force = 125 - value.";
+CM_ SG_ 239 BrakeStatus "Constant 0x21 in all observed frames.";
+CM_ BO_ 311 "DME accelerator pedal position. ~57Hz broadcast.";
+CM_ SG_ 311 AccelPedalRaw "Accelerator pedal position. Idle (foot off) = 0x58 (88). Drive-by-wire offset: 0x58 is closed throttle, not 0. Full WOT range TBC.";
+CM_ SG_ 311 AccelPedalStatus "Message status byte. Constant 0xFD in all observed frames.";
+CM_ BO_ 435 "EGS gear selector position. ~6Hz broadcast (~167ms interval). GearChecksum = 0xCA + GearPosition.";
+CM_ SG_ 435 GearPosition "Current gear selector position as enum value.";
+CM_ SG_ 435 GearChecksum "Simple additive checksum: 0xCA + GearPosition.";
+CM_ BO_ 770 "EPS steering angle sensor. Angle uses uint16 LE with 0x8000 (32768) as center (0 degrees). Scale 0.1 deg/count (TBC). ~14Hz broadcast.";
+CM_ SG_ 770 SteeringAngle "Steering wheel angle. 0 = straight ahead. Positive = right, negative = left (TBC). Scale 0.1 deg/count needs calibration.";
+CM_ SG_ 770 SteeringCounter "Alive counter (uint16 BE).";
+
+VAL_ 435 GearPosition
+	1 "Park"
+	2 "Reverse"
+	3 "Neutral"
+	4 "Drive"
+	;
+
+BA_DEF_ BO_ "GenMsgCycleTime" INT 0 10000;
+
+BA_ "GenMsgCycleTime" BO_ 165 18;
+BA_ "GenMsgCycleTime" BO_ 217 18;
+BA_ "GenMsgCycleTime" BO_ 239 34;
+BA_ "GenMsgCycleTime" BO_ 311 18;
+BA_ "GenMsgCycleTime" BO_ 435 167;
+BA_ "GenMsgCycleTime" BO_ 770 71;
+
