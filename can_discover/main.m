@@ -410,6 +410,12 @@ didUpdateNotificationStateForCharacteristic:(CBCharacteristic *)characteristic
     _classicInquiryComplete = NO;
     _isScanning = YES;
 
+    /* Check already-paired Classic BT devices first (no inquiry needed) */
+    NSArray *paired = [IOBluetoothDevice pairedDevices];
+    for (IOBluetoothDevice *device in paired) {
+        [self _addClassicDeviceIfMatched:device];
+    }
+
     if (_bleReady) {
         [_central scanForPeripheralsWithServices:nil options:@{
             CBCentralManagerScanOptionAllowDuplicatesKey: @NO

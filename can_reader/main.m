@@ -493,6 +493,12 @@ didUpdateNotificationStateForCharacteristic:(CBCharacteristic *)characteristic
 
     if (!g_cli_mode) printf("  Scanning for OBD devices (BLE + Classic)...\n");
 
+    /* Check already-paired Classic BT devices first (no inquiry needed) */
+    NSArray *paired = [IOBluetoothDevice pairedDevices];
+    for (IOBluetoothDevice *device in paired) {
+        [self _addClassicDeviceIfMatched:device];
+    }
+
     if (_bleReady) {
         [_central scanForPeripheralsWithServices:nil options:@{
             CBCentralManagerScanOptionAllowDuplicatesKey: @NO
