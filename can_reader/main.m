@@ -2051,10 +2051,12 @@ static const struct {
       "Requires driving. ABS/ESC may be on a separate CAN bus." },
 };
 
-/** Read a single char from stdin while pumping NSRunLoop for BLE. */
+/** Read a single char from stdin while pumping NSRunLoop for BLE.
+ *  Drains any remaining characters on the line (up to and including '\n')
+ *  so the next call doesn't accidentally consume a stale newline. */
 static int disc_read_char(void) {
     int ch = 0;
-    while (ch == 0 && g_ble.isConnected) {
+    while (ch == 0 && g_ble.isConnected && g_running) {
         @autoreleasepool {
             fd_set fds;
             FD_ZERO(&fds);
@@ -2066,6 +2068,12 @@ static int disc_read_char(void) {
             [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
                                      beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
         }
+    }
+    /* Drain rest of the line to prevent stale newline on next call */
+    if (ch != '\n' && ch != 0) {
+        int c;
+        while ((c = fgetc(stdin)) != EOF && c != '\n')
+            ;
     }
     return ch;
 }
@@ -2109,6 +2117,9 @@ static bool disc_capture_phase(disc_phase_t *phase, int duration_s,
                               g_cli_can_frames[i].dlc);
     }
     disc_phase_finalize(phase, (double)(end_ms - start_ms) / 1000.0);
+
+    /* Reset interrupt so next capture isn't immediately skipped */
+    g_interrupt = NO;
 
     return g_ble.isConnected;
 }
@@ -2159,6 +2170,7 @@ static int cli_discover(const char *device) {
     fprintf(stderr, "  Press Enter when ready...");
     disc_read_char();
 
+    if (!g_running) goto interrupted;
     if (!g_ble.isConnected) goto disconnected;
 
     fprintf(stderr, "  Capturing %d seconds...", s_disc_phases[0].duration_s);
@@ -2167,6 +2179,12 @@ static int cli_discover(const char *device) {
         goto disconnected;
     fprintf(stderr, " %d frames, %d CAN IDs\n",
             baseline.total_frames, baseline.id_count);
+
+    /* Detect bus mode (D-CAN gateway vs direct PT-CAN) */
+    disc_bus_mode_t bus_mode = disc_detect_bus_mode(&baseline);
+    cli_log("Bus mode: %s (%s)",
+            bus_mode == DISC_BUS_GATEWAY ? "GATEWAY" : "DIRECT",
+            bus_mode == DISC_BUS_GATEWAY ? "D-CAN" : "PT-CAN");
 
     /* === Active phases (2..N) with skip/confirm === */
     for (int p = 1; p < DISC_NUM_PHASES; p++) {
@@ -2179,6 +2197,7 @@ static int cli_discover(const char *device) {
         fflush(stderr);
 
         int ch = disc_read_char();
+        if (!g_running) goto interrupted;
         if (!g_ble.isConnected) goto disconnected;
         if (ch == 's' || ch == 'S') {
             /* Consume trailing newline if any */
@@ -2232,6 +2251,7 @@ static int cli_discover(const char *device) {
                 fprintf(stderr, "  Include rpm? [y/n] > ");
                 fflush(stderr);
                 int c2 = disc_read_char();
+                if (!g_running) goto interrupted;
                 if (!g_ble.isConnected) goto disconnected;
                 if (c2 == 'y' || c2 == 'Y' || c2 == '\n') {
                     result.signals[DISC_SIG_RPM] = rpm_cand;
@@ -2251,6 +2271,7 @@ static int cli_discover(const char *device) {
                 fprintf(stderr, "  Include throttle? [y/n] > ");
                 fflush(stderr);
                 int c2 = disc_read_char();
+                if (!g_running) goto interrupted;
                 if (!g_ble.isConnected) goto disconnected;
                 if (c2 == 'y' || c2 == 'Y' || c2 == '\n') {
                     result.signals[DISC_SIG_THROTTLE] = cand;
@@ -2271,6 +2292,7 @@ static int cli_discover(const char *device) {
                 fprintf(stderr, "  Include %s? [y/n] > ", sname);
                 fflush(stderr);
                 int c2 = disc_read_char();
+                if (!g_running) goto interrupted;
                 if (!g_ble.isConnected) goto disconnected;
                 if (c2 == 'y' || c2 == 'Y' || c2 == '\n') {
                     result.signals[sig] = cand;
@@ -2288,11 +2310,11 @@ static int cli_discover(const char *device) {
 
     /* JSON output (stdout) — only confirmed signals */
     printf("{\n");
-    bool first = true;
+    printf("  \"bus_mode\":\"%s\"", disc_bus_mode_name(bus_mode));
+    bool first = false;
     for (int s = 0; s < DISC_SIG_COUNT; s++) {
         if (!result.found[s]) continue;
-        if (!first) printf(",\n");
-        first = false;
+        printf(",\n");
 
         const disc_candidate_t *c = &result.signals[s];
         printf("  \"%s\":{\"can_id\":\"0x%03X\",\"dlc\":%d,\"hz\":%.1f",
@@ -2326,6 +2348,11 @@ static int cli_discover(const char *device) {
     [g_ble disconnect];
     g_interrupt = NO;
     return 0;
+
+interrupted:
+    fprintf(stderr, "\n[INFO] Interrupted by user\n");
+    [g_ble disconnect];
+    return 130;
 
 disconnected:
     fprintf(stderr, "\n[ERROR] Connection lost during discover\n");

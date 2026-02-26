@@ -103,6 +103,15 @@ typedef struct {
 } disc_phase_t;
 
 /*******************************************************************************
+ * Bus Mode (D-CAN gateway vs direct PT-CAN)
+ ******************************************************************************/
+
+typedef enum {
+    DISC_BUS_DIRECT = 0,        /**< Direct PT-CAN (high Hz, ~50-100 Hz) */
+    DISC_BUS_GATEWAY            /**< D-CAN via ZGW gateway (low Hz, ~0.1-5 Hz) */
+} disc_bus_mode_t;
+
+/*******************************************************************************
  * Confidence / Characterization Enums
  ******************************************************************************/
 
@@ -148,6 +157,7 @@ typedef struct {
 typedef struct {
     disc_candidate_t signals[DISC_SIG_COUNT];   /**< Best candidate per signal */
     bool             found[DISC_SIG_COUNT];     /**< Whether signal was found */
+    disc_bus_mode_t  bus_mode;                  /**< Detected bus mode */
 } disc_result_t;
 
 /*******************************************************************************
@@ -246,6 +256,23 @@ const char *disc_endian_name(disc_endian_t e);
  * @brief Get human-readable name for signedness
  */
 const char *disc_sign_name(disc_sign_t s);
+
+/**
+ * @brief Detect bus mode from baseline capture
+ *
+ * Computes median Hz across all CAN IDs in the baseline.
+ * If median < 10.0, returns DISC_BUS_GATEWAY (D-CAN via ZGW);
+ * otherwise DISC_BUS_DIRECT (direct PT-CAN).
+ *
+ * @param baseline Baseline phase capture
+ * @return Detected bus mode
+ */
+disc_bus_mode_t disc_detect_bus_mode(const disc_phase_t *baseline);
+
+/**
+ * @brief Get human-readable name for bus mode
+ */
+const char *disc_bus_mode_name(disc_bus_mode_t mode);
 
 #ifdef __cplusplus
 }

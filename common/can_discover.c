@@ -40,6 +40,67 @@ const char *disc_sign_name(disc_sign_t s) {
 }
 
 /*******************************************************************************
+ * Bus Mode Detection
+ ******************************************************************************/
+
+static const char *s_bus_mode_names[] = { "direct", "gateway" };
+
+const char *disc_bus_mode_name(disc_bus_mode_t mode) {
+    if (mode > DISC_BUS_GATEWAY) return "unknown";
+    return s_bus_mode_names[mode];
+}
+
+/** qsort comparator for doubles */
+static int cmp_double(const void *a, const void *b) {
+    double da = *(const double *)a;
+    double db = *(const double *)b;
+    if (da < db) return -1;
+    if (da > db) return 1;
+    return 0;
+}
+
+/**
+ * Detect bus mode from baseline capture statistics.
+ * Computes Hz for each CAN ID, takes the median.
+ * median < 10.0 → GATEWAY (D-CAN via ZGW), else DIRECT (PT-CAN).
+ */
+static disc_bus_mode_t detect_bus_mode(const disc_phase_t *baseline,
+                                        double *out_hz_threshold) {
+    if (baseline->id_count == 0 || baseline->duration_s <= 0) {
+        *out_hz_threshold = 30.0;
+        return DISC_BUS_DIRECT;
+    }
+
+    double hz_values[DISC_MAX_IDS];
+    int n = baseline->id_count;
+    for (int i = 0; i < n; i++) {
+        hz_values[i] = (double)baseline->ids[i].frame_count / baseline->duration_s;
+    }
+
+    qsort(hz_values, n, sizeof(double), cmp_double);
+
+    double median;
+    if (n % 2 == 1) {
+        median = hz_values[n / 2];
+    } else {
+        median = (hz_values[n / 2 - 1] + hz_values[n / 2]) / 2.0;
+    }
+
+    if (median < 10.0) {
+        *out_hz_threshold = 1.0;
+        return DISC_BUS_GATEWAY;
+    } else {
+        *out_hz_threshold = 30.0;
+        return DISC_BUS_DIRECT;
+    }
+}
+
+disc_bus_mode_t disc_detect_bus_mode(const disc_phase_t *baseline) {
+    double threshold;
+    return detect_bus_mode(baseline, &threshold);
+}
+
+/*******************************************************************************
  * Phase Capture
  ******************************************************************************/
 
@@ -53,7 +114,20 @@ void disc_phase_init(disc_phase_t *phase) {
  */
 static int find_or_create_id(disc_phase_t *phase, uint32_t can_id, uint8_t dlc) {
     for (int i = 0; i < phase->id_count; i++) {
-        if (phase->ids[i].can_id == can_id) return i;
+        if (phase->ids[i].can_id == can_id) {
+            if (dlc > phase->ids[i].dlc) {
+                /* Initialize newly exposed bytes */
+                for (int b = phase->ids[i].dlc; b < dlc; b++) {
+                    phase->ids[i].bytes[b].min_val = 0xFF;
+                    phase->ids[i].bytes[b].max_val = 0x00;
+                    phase->ids[i].bytes[b].unique_count = 0;
+                    memset(phase->ids[i].bytes[b].seen, 0,
+                           sizeof(phase->ids[i].bytes[b].seen));
+                }
+                phase->ids[i].dlc = dlc;
+            }
+            return i;
+        }
     }
     if (phase->id_count >= DISC_MAX_IDS) return -1;
 
@@ -173,8 +247,10 @@ static bool compare_id(const disc_phase_t *baseline, const disc_phase_t *active,
         int b_unique = 0;
         if (base_id) {
             const disc_byte_t *bl = &base_id->bytes[b];
-            b_range = bl->max_val - bl->min_val;
-            b_unique = bl->unique_count;
+            if (bl->unique_count > 0) {
+                b_range = bl->max_val - bl->min_val;
+                b_unique = bl->unique_count;
+            }
         }
 
         bc->active_range = a_range;
@@ -327,7 +403,8 @@ static bool classify_steering(const id_cmp_t *results, int count,
 static void classify_throttle_rpm(const id_cmp_t *results, int count,
                                     const uint32_t *excl, int excl_count,
                                     disc_candidate_t *throttle_out, bool *throttle_found,
-                                    disc_candidate_t *rpm_out, bool *rpm_found) {
+                                    disc_candidate_t *rpm_out, bool *rpm_found,
+                                    double hz_threshold) {
     *throttle_found = false;
     *rpm_found = false;
 
@@ -390,7 +467,7 @@ static void classify_throttle_rpm(const id_cmp_t *results, int count,
     if (rpm_idx >= 0) {
         fill_candidate(rpm_out, &results[top_idx[rpm_idx]]);
         const id_cmp_t *rr = &results[top_idx[rpm_idx]];
-        rpm_out->confidence = (rr->changed_bytes >= 2 && rr->hz >= 30.0)
+        rpm_out->confidence = (rr->changed_bytes >= 2 && rr->hz >= hz_threshold)
                               ? DISC_CONF_HIGH : DISC_CONF_MEDIUM;
         *rpm_found = true;
     }
@@ -466,12 +543,13 @@ static bool classify_gear(const id_cmp_t *results, int count,
  */
 static bool classify_wheel_speed(const id_cmp_t *results, int count,
                                    const uint32_t *excl, int excl_count,
-                                   disc_candidate_t *out) {
+                                   disc_candidate_t *out,
+                                   double hz_threshold) {
     /* 1st pass: 4+ bytes changing + high Hz (4-wheel pattern) */
     for (int i = 0; i < count; i++) {
         if (is_excluded(results[i].can_id, excl, excl_count)) continue;
         const id_cmp_t *r = &results[i];
-        if (r->changed_bytes >= 4 && r->hz >= 30.0) {
+        if (r->changed_bytes >= 4 && r->hz >= hz_threshold) {
             fill_candidate(out, r);
             out->confidence = DISC_CONF_HIGH;
             return true;
@@ -482,7 +560,7 @@ static bool classify_wheel_speed(const id_cmp_t *results, int count,
     for (int i = 0; i < count; i++) {
         if (is_excluded(results[i].can_id, excl, excl_count)) continue;
         const id_cmp_t *r = &results[i];
-        if (r->changed_bytes >= 2 && r->hz >= 30.0) {
+        if (r->changed_bytes >= 2 && r->hz >= hz_threshold) {
             fill_candidate(out, r);
             out->confidence = DISC_CONF_MEDIUM;
             return true;
@@ -610,6 +688,10 @@ bool disc_classify(const disc_phase_t *baseline,
                    const uint32_t *excl, int excl_count,
                    disc_candidate_t *out,
                    disc_candidate_t *rpm_out, bool *rpm_found) {
+    /* Detect bus mode to set adaptive Hz threshold */
+    double hz_threshold;
+    detect_bus_mode(baseline, &hz_threshold);
+
     id_cmp_t cmp_buf[DISC_MAX_IDS];
     int n = compare_phases(baseline, active, cmp_buf, DISC_MAX_IDS);
 
@@ -627,7 +709,8 @@ bool disc_classify(const disc_phase_t *baseline,
         t_cand.byte_idx = -1; t_cand.byte2_idx = -1;
         r_cand.byte_idx = -1; r_cand.byte2_idx = -1;
         classify_throttle_rpm(cmp_buf, n, excl, excl_count,
-                               &t_cand, &t_found, &r_cand, &r_found);
+                               &t_cand, &t_found, &r_cand, &r_found,
+                               hz_threshold);
         if (t_found) *out = t_cand;
         if (rpm_out && rpm_found) {
             *rpm_found = r_found;
@@ -643,7 +726,8 @@ bool disc_classify(const disc_phase_t *baseline,
     case DISC_SIG_GEAR:
         return classify_gear(cmp_buf, n, excl, excl_count, out);
     case DISC_SIG_WHEEL_SPEED:
-        return classify_wheel_speed(cmp_buf, n, excl, excl_count, out);
+        return classify_wheel_speed(cmp_buf, n, excl, excl_count, out,
+                                     hz_threshold);
     default:
         return false;
     }
@@ -662,6 +746,10 @@ void disc_analyze(const disc_phase_t phases[DISC_NUM_PHASES],
     }
 
     const disc_phase_t *baseline = &phases[DISC_PHASE_BASELINE];
+
+    /* Detect bus mode and adaptive Hz threshold */
+    double hz_threshold;
+    result->bus_mode = detect_bus_mode(baseline, &hz_threshold);
 
     /* Exclusion list — grows as signals are identified */
     uint32_t excl[DISC_SIG_COUNT];
@@ -688,7 +776,8 @@ void disc_analyze(const disc_phase_t phases[DISC_NUM_PHASES],
                                &result->signals[DISC_SIG_THROTTLE],
                                &result->found[DISC_SIG_THROTTLE],
                                &result->signals[DISC_SIG_RPM],
-                               &result->found[DISC_SIG_RPM]);
+                               &result->found[DISC_SIG_RPM],
+                               hz_threshold);
 
         if (result->found[DISC_SIG_RPM])
             excl[excl_count++] = result->signals[DISC_SIG_RPM].can_id;
@@ -723,7 +812,8 @@ void disc_analyze(const disc_phase_t phases[DISC_NUM_PHASES],
         int n = compare_phases(baseline, &phases[DISC_PHASE_WHEEL_SPEED],
                                 cmp_buf, DISC_MAX_IDS);
         if (classify_wheel_speed(cmp_buf, n, excl, excl_count,
-                                  &result->signals[DISC_SIG_WHEEL_SPEED])) {
+                                  &result->signals[DISC_SIG_WHEEL_SPEED],
+                                  hz_threshold)) {
             result->found[DISC_SIG_WHEEL_SPEED] = true;
         }
     }
