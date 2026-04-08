@@ -4,10 +4,10 @@
  *
  * Standalone tool for interactive PT-CAN signal discovery.
  * Connects via BLE/Classic BT to an ELM327/STN adapter in passive mode,
- * guides user through 5 capture phases, and identifies CAN signals
- * (steering, RPM, throttle, brake, gear) automatically.
+ * guides user through 6 capture phases, and identifies CAN signals
+ * (steering, RPM, throttle, brake, gear, wheel speed) automatically.
  *
- * Usage: canbus_discover [device_prefix]
+ * Usage: canbus_discover [device_prefix] [--dump-dir DIR]
  */
 
 #import <Foundation/Foundation.h>
@@ -18,6 +18,7 @@
 #include <string.h>
 #include <stdarg.h>
 #include <signal.h>
+#include <time.h>
 #include <sys/time.h>
 
 #include "elm327.h"
@@ -43,6 +44,9 @@ static const NSTimeInterval kResponseTimeout = 3.0;
 /** Max discovered devices */
 #define MAX_DEVICES 16
 
+/** Max path buffer length for dump artifacts */
+#define DISC_PATH_MAX 512
+
 /** Transport type for discovered devices */
 typedef enum { OBD_TRANSPORT_BLE, OBD_TRANSPORT_CLASSIC } OBDTransportType;
 
@@ -53,6 +57,16 @@ typedef enum { OBD_TRANSPORT_BLE, OBD_TRANSPORT_CLASSIC } OBDTransportType;
 #define CLI_MAX_CAN_FRAMES 4096
 static can_frame_t g_cli_can_frames[CLI_MAX_CAN_FRAMES];
 static int g_cli_can_frame_count = 0;
+
+typedef struct {
+    bool   skipped;
+    bool   captured;
+    int    planned_duration_s;
+    double actual_duration_s;
+    int    total_frames;
+    int    id_count;
+    char   dump_file[64];
+} disc_phase_dump_meta_t;
 
 /*******************************************************************************
  * BLE Manager (Objective-C)
@@ -273,6 +287,8 @@ didDiscoverCharacteristicsForService:(CBService *)service
 
                     can_frame_t frame;
                     if (elm327_parse_can_frame(_canLineBuf, &frame)) {
+                        frame.timestamp_ms =
+                            (int64_t)([[NSDate date] timeIntervalSince1970] * 1000.0);
                         if (g_cli_can_frame_count < CLI_MAX_CAN_FRAMES) {
                             g_cli_can_frames[g_cli_can_frame_count++] = frame;
                         }
@@ -630,6 +646,293 @@ static int64_t get_timestamp_ms(void) {
     return (int64_t)tv.tv_sec * 1000 + tv.tv_usec / 1000;
 }
 
+static void json_print_string(FILE *f, const char *s) {
+    fputc('"', f);
+    for (; *s; s++) {
+        switch (*s) {
+            case '"':  fputs("\\\"", f); break;
+            case '\\': fputs("\\\\", f); break;
+            case '\n': fputs("\\n", f); break;
+            case '\r': fputs("\\r", f); break;
+            case '\t': fputs("\\t", f); break;
+            default:
+                if ((unsigned char)*s < 0x20) {
+                    fprintf(f, "\\u%04x", (unsigned char)*s);
+                } else {
+                    fputc(*s, f);
+                }
+                break;
+        }
+    }
+    fputc('"', f);
+}
+
+static const char *disc_phase_slug(int phase_idx) {
+    static const char *kPhaseSlugs[DISC_NUM_PHASES] = {
+        "baseline", "steering", "throttle", "brake", "gear", "wheel_speed"
+    };
+    if (phase_idx < 0 || phase_idx >= DISC_NUM_PHASES) return "phase";
+    return kPhaseSlugs[phase_idx];
+}
+
+static const char *disc_phase_display_name(int phase_idx) {
+    static const char *kPhaseNames[DISC_NUM_PHASES] = {
+        "Baseline", "Steering", "Throttle", "Brake", "Gear", "Wheel Speed"
+    };
+    if (phase_idx < 0 || phase_idx >= DISC_NUM_PHASES) return "Phase";
+    return kPhaseNames[phase_idx];
+}
+
+static void disc_join_path(char *buf, size_t len,
+                           const char *dir, const char *leaf) {
+    if (!buf || len == 0) return;
+    if (!dir || !dir[0]) {
+        snprintf(buf, len, "%s", leaf ? leaf : "");
+        return;
+    }
+
+    size_t dir_len = strlen(dir);
+    if (dir_len > 0 && dir[dir_len - 1] == '/') {
+        snprintf(buf, len, "%s%s", dir, leaf);
+    } else {
+        snprintf(buf, len, "%s/%s", dir, leaf);
+    }
+}
+
+static void disc_make_session_dir_path(char *buf, size_t len,
+                                       const char *dump_dir_override) {
+    if (dump_dir_override && dump_dir_override[0]) {
+        snprintf(buf, len, "%s", dump_dir_override);
+        return;
+    }
+
+    time_t now = time(NULL);
+    struct tm tm_now;
+    localtime_r(&now, &tm_now);
+    char stamp[32];
+    strftime(stamp, sizeof(stamp), "%Y%m%d_%H%M%S", &tm_now);
+    snprintf(buf, len, "captures/%s", stamp);
+}
+
+static bool disc_ensure_dir(const char *path) {
+    if (!path || !path[0]) return false;
+
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSString *ns_path = [NSString stringWithUTF8String:path];
+    NSError *error = nil;
+    BOOL ok = [fm createDirectoryAtPath:ns_path
+            withIntermediateDirectories:YES
+                             attributes:nil
+                                  error:&error];
+    if (!ok) {
+        fprintf(stderr, "[WARN] Failed to create dump dir %s: %s\n",
+                path, error.localizedDescription.UTF8String);
+    }
+    return ok == YES;
+}
+
+static void disc_make_draft_dbc_path(char *buf, size_t len, const char *dump_dir) {
+    if (dump_dir && dump_dir[0]) {
+        disc_join_path(buf, len, dump_dir, "ptcan_discover_draft.dbc");
+        return;
+    }
+
+    time_t now = time(NULL);
+    struct tm tm_now;
+    localtime_r(&now, &tm_now);
+    strftime(buf, len, "ptcan_discover_draft_%Y%m%d_%H%M%S.dbc", &tm_now);
+}
+
+static void disc_make_result_json_path(char *buf, size_t len, const char *dump_dir) {
+    if (dump_dir && dump_dir[0]) {
+        disc_join_path(buf, len, dump_dir, "result.json");
+    } else {
+        snprintf(buf, len, "result.json");
+    }
+}
+
+static void disc_make_manifest_path(char *buf, size_t len, const char *dump_dir) {
+    if (dump_dir && dump_dir[0]) {
+        disc_join_path(buf, len, dump_dir, "manifest.json");
+    } else {
+        snprintf(buf, len, "manifest.json");
+    }
+}
+
+static void disc_make_phase_dump_filename(char *buf, size_t len, int phase_idx) {
+    snprintf(buf, len, "%02d_%s.frames.tsv", phase_idx, disc_phase_slug(phase_idx));
+}
+
+static void disc_make_phase_dump_path(char *buf, size_t len,
+                                      const char *dump_dir, int phase_idx) {
+    char leaf[64];
+    disc_make_phase_dump_filename(leaf, sizeof(leaf), phase_idx);
+    disc_join_path(buf, len, dump_dir, leaf);
+}
+
+static bool disc_write_phase_dump(const char *path, const disc_raw_phase_t *raw_phase) {
+    if (!path || !raw_phase) return false;
+
+    FILE *f = fopen(path, "w");
+    if (!f) return false;
+
+    fprintf(f, "timestamp_ms\tcan_id\tis_extended\tdlc\tdata_hex\n");
+    for (int i = 0; i < raw_phase->frame_count; i++) {
+        const can_frame_t *frame = &raw_phase->frames[i];
+        fprintf(f, "%lld\t0x%X\t%d\t%u\t",
+                (long long)frame->timestamp_ms,
+                frame->can_id,
+                frame->is_extended ? 1 : 0,
+                frame->dlc);
+        for (int b = 0; b < frame->dlc; b++) {
+            fprintf(f, "%02X", frame->data[b]);
+        }
+        fputc('\n', f);
+    }
+
+    fclose(f);
+    return true;
+}
+
+static void disc_write_result_json_object(FILE *f,
+                                          bool have_bus_mode,
+                                          disc_bus_mode_t bus_mode,
+                                          const char *dump_dir,
+                                          const char *dbc_path,
+                                          const disc_result_t *result) {
+    bool first = true;
+
+    fprintf(f, "{\n");
+
+    if (have_bus_mode) {
+        fprintf(f, "  \"bus_mode\":");
+        json_print_string(f, disc_bus_mode_name(bus_mode));
+        first = false;
+    }
+
+    if (dump_dir && dump_dir[0]) {
+        fprintf(f, "%s  \"dump_dir\":", first ? "" : ",\n");
+        json_print_string(f, dump_dir);
+        first = false;
+    }
+
+    if (dbc_path && dbc_path[0]) {
+        fprintf(f, "%s  \"dbc_path\":", first ? "" : ",\n");
+        json_print_string(f, dbc_path);
+        first = false;
+    }
+
+    for (int s = 0; result && s < DISC_SIG_COUNT; s++) {
+        if (!result->found[s]) continue;
+
+        const disc_candidate_t *c = &result->signals[s];
+        fprintf(f, "%s  ", first ? "" : ",\n");
+        json_print_string(f, disc_signal_name((disc_signal_t)s));
+        fprintf(f, ":{\"can_id\":\"0x%03X\",\"dlc\":%d,\"hz\":%.1f",
+                c->can_id, c->dlc, c->hz);
+        if (c->byte_idx >= 0) fprintf(f, ",\"byte\":%d", c->byte_idx);
+        if (c->byte2_idx >= 0) fprintf(f, ",\"byte2\":%d", c->byte2_idx);
+        fprintf(f, ",\"score\":%.1f,\"confidence\":\"%s\"",
+                c->score, disc_confidence_name(c->confidence));
+        if (c->byte2_idx >= 0 && c->endianness != DISC_ENDIAN_UNKNOWN) {
+            fprintf(f, ",\"endian\":\"%s\"", disc_endian_name(c->endianness));
+        }
+        if (c->signedness != DISC_SIGN_UNKNOWN) {
+            fprintf(f, ",\"signed\":%s",
+                    c->signedness == DISC_SIGN_SIGNED ? "true" : "false");
+            fprintf(f, ",\"raw_min\":%d,\"raw_max\":%d", c->raw_min, c->raw_max);
+        }
+        fprintf(f, "}");
+        first = false;
+    }
+
+    fprintf(f, "\n}\n");
+}
+
+static bool disc_write_result_json(const char *path,
+                                   bool have_bus_mode,
+                                   disc_bus_mode_t bus_mode,
+                                   const char *dump_dir,
+                                   const char *dbc_path,
+                                   const disc_result_t *result) {
+    if (!path) return false;
+
+    FILE *f = fopen(path, "w");
+    if (!f) return false;
+    disc_write_result_json_object(f, have_bus_mode, bus_mode, dump_dir, dbc_path, result);
+    fclose(f);
+    return true;
+}
+
+static bool disc_write_manifest(const char *path,
+                                const char *status,
+                                const char *device_prefix,
+                                const char *connected_name,
+                                const char *monitor_cmd,
+                                bool have_bus_mode,
+                                disc_bus_mode_t bus_mode,
+                                const char *dbc_path,
+                                const char *result_path,
+                                const disc_phase_dump_meta_t metas[DISC_NUM_PHASES]) {
+    if (!path || !status || !metas) return false;
+
+    FILE *f = fopen(path, "w");
+    if (!f) return false;
+
+    fprintf(f, "{\n");
+    fprintf(f, "  \"format\":");
+    json_print_string(f, "can_discover_dump/v1");
+    fprintf(f, ",\n  \"status\":");
+    json_print_string(f, status);
+    fprintf(f, ",\n  \"device_prefix\":");
+    if (device_prefix && device_prefix[0]) json_print_string(f, device_prefix);
+    else fputs("null", f);
+    fprintf(f, ",\n  \"connected_device\":");
+    if (connected_name && connected_name[0]) json_print_string(f, connected_name);
+    else fputs("null", f);
+    fprintf(f, ",\n  \"monitor_cmd\":");
+    json_print_string(f, monitor_cmd ? monitor_cmd : "");
+    fprintf(f, ",\n  \"bus_mode\":");
+    if (have_bus_mode) json_print_string(f, disc_bus_mode_name(bus_mode));
+    else fputs("null", f);
+    fprintf(f, ",\n  \"dbc_path\":");
+    if (dbc_path && dbc_path[0]) json_print_string(f, dbc_path);
+    else fputs("null", f);
+    fprintf(f, ",\n  \"result_path\":");
+    if (result_path && result_path[0]) json_print_string(f, result_path);
+    else fputs("null", f);
+    fprintf(f, ",\n  \"phases\":[\n");
+
+    for (int i = 0; i < DISC_NUM_PHASES; i++) {
+        const disc_phase_dump_meta_t *meta = &metas[i];
+        if (i > 0) fprintf(f, ",\n");
+        fprintf(f, "    {\"index\":%d,\"name\":", i);
+        json_print_string(f, disc_phase_display_name(i));
+        fprintf(f, ",\"slug\":");
+        json_print_string(f, disc_phase_slug(i));
+        fprintf(f, ",\"planned_duration_s\":%d", meta->planned_duration_s);
+        fprintf(f, ",\"skipped\":%s", meta->skipped ? "true" : "false");
+        fprintf(f, ",\"captured\":%s", meta->captured ? "true" : "false");
+        fprintf(f, ",\"actual_duration_s\":%.3f", meta->actual_duration_s);
+        fprintf(f, ",\"frame_count\":%d", meta->total_frames);
+        fprintf(f, ",\"id_count\":%d", meta->id_count);
+        fprintf(f, ",\"dump_file\":");
+        if (meta->dump_file[0]) json_print_string(f, meta->dump_file);
+        else fputs("null", f);
+        fprintf(f, "}");
+    }
+
+    fprintf(f, "\n  ]\n}\n");
+    fclose(f);
+    return true;
+}
+
+static void disc_free_raw_phases(disc_raw_phase_t phases[DISC_NUM_PHASES]) {
+    for (int i = 0; i < DISC_NUM_PHASES; i++) {
+        disc_raw_phase_free(&phases[i]);
+    }
+}
+
 /** Run the event loop for a given duration */
 static void run_loop_for(double seconds) {
     NSDate *until = [NSDate dateWithTimeIntervalSinceNow:seconds];
@@ -875,8 +1178,8 @@ static int disc_read_char(void) {
 }
 
 /** Capture one phase. Returns false if connection lost. */
-static bool disc_capture_phase(disc_phase_t *phase, int duration_s,
-                                 const char *monitor_cmd) {
+static bool disc_capture_phase(disc_phase_t *phase, disc_raw_phase_t *raw_phase,
+                                 int duration_s, const char *monitor_cmd) {
     g_ble->_canLineLen = 0;
     g_ble.canMonitorActive = YES;
     g_cli_can_frame_count = 0;
@@ -913,6 +1216,10 @@ static bool disc_capture_phase(disc_phase_t *phase, int duration_s,
                               g_cli_can_frames[i].dlc);
     }
     disc_phase_finalize(phase, (double)(end_ms - start_ms) / 1000.0);
+    if (raw_phase &&
+        !disc_raw_phase_set(raw_phase, g_cli_can_frames, g_cli_can_frame_count)) {
+        fprintf(stderr, "\n[WARN] Failed to store raw frames for DBC draft output\n");
+    }
 
     /* Reset interrupt so next capture isn't immediately skipped */
     g_interrupt = NO;
@@ -938,17 +1245,41 @@ static void disc_print_candidate(const char *name, const disc_candidate_t *c) {
     }
 }
 
-static int run_discover(const char *device_prefix) {
+static int run_discover(const char *device_prefix, const char *dump_dir_override) {
     int matchIdx = ptcan_connect(device_prefix);
-    (void)matchIdx;
-
+    const char *connected_name = NULL;
+    if (matchIdx >= 0 && matchIdx < (int)g_ble.discoveredNames.count) {
+        connected_name = g_ble.discoveredNames[matchIdx].UTF8String;
+    }
     const char *monitor_cmd = g_stn_detected ? "STMA" : "ATMA";
+    char dump_dir[DISC_PATH_MAX] = {0};
+    char dbc_path[DISC_PATH_MAX] = {0};
+    char result_path[DISC_PATH_MAX] = {0};
+    char manifest_path[DISC_PATH_MAX] = {0};
+    bool dump_enabled = false;
+    bool have_bus_mode = false;
+    disc_bus_mode_t bus_mode = DISC_BUS_DIRECT;
 
-    disc_phase_t baseline;
-    disc_phase_init(&baseline);
+    disc_phase_t phases[DISC_NUM_PHASES];
+    disc_raw_phase_t raw_phases[DISC_NUM_PHASES];
+    disc_phase_dump_meta_t phase_meta[DISC_NUM_PHASES];
+    for (int i = 0; i < DISC_NUM_PHASES; i++) {
+        disc_phase_init(&phases[i]);
+        disc_raw_phase_init(&raw_phases[i]);
+        memset(&phase_meta[i], 0, sizeof(phase_meta[i]));
+        phase_meta[i].planned_duration_s = s_disc_phases[i].duration_s;
+    }
 
-    /* Exclusion list — grows as signals are confirmed */
-    uint32_t excl[DISC_SIG_COUNT];
+    disc_make_session_dir_path(dump_dir, sizeof(dump_dir), dump_dir_override);
+    if (disc_ensure_dir(dump_dir)) {
+        dump_enabled = true;
+        cli_log("Capture dump dir: %s", dump_dir);
+        disc_make_manifest_path(manifest_path, sizeof(manifest_path), dump_dir);
+        disc_make_result_json_path(result_path, sizeof(result_path), dump_dir);
+    }
+
+    /* Keep exclusions empty so multiple signals can share one CAN message. */
+    uint32_t excl[DISC_SIG_COUNT] = {0};
     int excl_count = 0;
 
     /* Confirmed results */
@@ -970,16 +1301,38 @@ static int run_discover(const char *device_prefix) {
 
     fprintf(stderr, "  Capturing %d seconds...", s_disc_phases[0].duration_s);
     fflush(stderr);
-    if (!disc_capture_phase(&baseline, s_disc_phases[0].duration_s, monitor_cmd))
+    if (!disc_capture_phase(&phases[DISC_PHASE_BASELINE],
+                            &raw_phases[DISC_PHASE_BASELINE],
+                            s_disc_phases[0].duration_s, monitor_cmd))
         goto disconnected;
     fprintf(stderr, " %d frames, %d CAN IDs\n",
-            baseline.total_frames, baseline.id_count);
+            phases[DISC_PHASE_BASELINE].total_frames,
+            phases[DISC_PHASE_BASELINE].id_count);
 
     /* Detect bus mode (D-CAN gateway vs direct PT-CAN) */
-    disc_bus_mode_t bus_mode = disc_detect_bus_mode(&baseline);
+    bus_mode = disc_detect_bus_mode(&phases[DISC_PHASE_BASELINE]);
+    have_bus_mode = true;
     cli_log("Bus mode: %s (%s)",
             bus_mode == DISC_BUS_GATEWAY ? "GATEWAY" : "DIRECT",
             bus_mode == DISC_BUS_GATEWAY ? "D-CAN" : "PT-CAN");
+
+    result.bus_mode = bus_mode;
+    phase_meta[DISC_PHASE_BASELINE].captured = true;
+    phase_meta[DISC_PHASE_BASELINE].actual_duration_s = phases[DISC_PHASE_BASELINE].duration_s;
+    phase_meta[DISC_PHASE_BASELINE].total_frames = phases[DISC_PHASE_BASELINE].total_frames;
+    phase_meta[DISC_PHASE_BASELINE].id_count = phases[DISC_PHASE_BASELINE].id_count;
+    if (dump_enabled) {
+        char phase_path[DISC_PATH_MAX];
+        disc_make_phase_dump_path(phase_path, sizeof(phase_path),
+                                  dump_dir, DISC_PHASE_BASELINE);
+        if (disc_write_phase_dump(phase_path, &raw_phases[DISC_PHASE_BASELINE])) {
+            disc_make_phase_dump_filename(phase_meta[DISC_PHASE_BASELINE].dump_file,
+                                          sizeof(phase_meta[DISC_PHASE_BASELINE].dump_file),
+                                          DISC_PHASE_BASELINE);
+        } else {
+            fprintf(stderr, "[WARN] Failed to write phase dump: %s\n", phase_path);
+        }
+    }
 
     /* === Active phases (2..N) with skip/confirm === */
     for (int p = 1; p < DISC_NUM_PHASES; p++) {
@@ -996,19 +1349,34 @@ static int run_discover(const char *device_prefix) {
         if (!g_ble.isConnected) goto disconnected;
         if (ch == 's' || ch == 'S') {
             fprintf(stderr, "  Skipped.\n");
+            phase_meta[p].skipped = true;
             continue;
         }
 
         /* Capture */
-        disc_phase_t active;
-        disc_phase_init(&active);
+        disc_phase_t *active = &phases[p];
 
         fprintf(stderr, "  Capturing %d seconds...", s_disc_phases[p].duration_s);
         fflush(stderr);
-        if (!disc_capture_phase(&active, s_disc_phases[p].duration_s, monitor_cmd))
+        if (!disc_capture_phase(active, &raw_phases[p],
+                                s_disc_phases[p].duration_s, monitor_cmd))
             goto disconnected;
         fprintf(stderr, " %d frames, %d CAN IDs\n",
-                active.total_frames, active.id_count);
+                active->total_frames, active->id_count);
+        phase_meta[p].captured = true;
+        phase_meta[p].actual_duration_s = active->duration_s;
+        phase_meta[p].total_frames = active->total_frames;
+        phase_meta[p].id_count = active->id_count;
+        if (dump_enabled) {
+            char phase_path[DISC_PATH_MAX];
+            disc_make_phase_dump_path(phase_path, sizeof(phase_path), dump_dir, p);
+            if (disc_write_phase_dump(phase_path, &raw_phases[p])) {
+                disc_make_phase_dump_filename(phase_meta[p].dump_file,
+                                              sizeof(phase_meta[p].dump_file), p);
+            } else {
+                fprintf(stderr, "[WARN] Failed to write phase dump: %s\n", phase_path);
+            }
+        }
 
         /* Analyze this phase */
         disc_signal_t sig;
@@ -1029,13 +1397,15 @@ static int run_discover(const char *device_prefix) {
         rpm_cand.byte2_idx = -1;
         bool rpm_det = false;
 
-        bool found = disc_classify(&baseline, &active, sig,
-                                    excl, excl_count, &cand,
-                                    &rpm_cand, &rpm_det);
+        bool found = disc_classify_with_raw(&phases[DISC_PHASE_BASELINE],
+                                            &raw_phases[DISC_PHASE_BASELINE],
+                                            active, &raw_phases[p], sig,
+                                            excl, excl_count, &cand,
+                                            &rpm_cand, &rpm_det);
 
         /* Characterize detected signals */
-        if (found) disc_characterize(&active, &cand);
-        if (rpm_det) disc_characterize(&active, &rpm_cand);
+        if (found) disc_characterize(active, &cand);
+        if (rpm_det) disc_characterize(active, &rpm_cand);
 
         if (sig == DISC_SIG_THROTTLE) {
             /* Show RPM result first */
@@ -1049,7 +1419,6 @@ static int run_discover(const char *device_prefix) {
                 if (c2 == 'y' || c2 == 'Y' || c2 == '\n') {
                     result.signals[DISC_SIG_RPM] = rpm_cand;
                     result.found[DISC_SIG_RPM] = true;
-                    excl[excl_count++] = rpm_cand.can_id;
                     fprintf(stderr, "  -> rpm included.\n");
                 } else {
                     fprintf(stderr, "  -> rpm excluded.\n");
@@ -1069,7 +1438,6 @@ static int run_discover(const char *device_prefix) {
                 if (c2 == 'y' || c2 == 'Y' || c2 == '\n') {
                     result.signals[DISC_SIG_THROTTLE] = cand;
                     result.found[DISC_SIG_THROTTLE] = true;
-                    excl[excl_count++] = cand.can_id;
                     fprintf(stderr, "  -> throttle included.\n");
                 } else {
                     fprintf(stderr, "  -> throttle excluded.\n");
@@ -1090,7 +1458,6 @@ static int run_discover(const char *device_prefix) {
                 if (c2 == 'y' || c2 == 'Y' || c2 == '\n') {
                     result.signals[sig] = cand;
                     result.found[sig] = true;
-                    excl[excl_count++] = cand.can_id;
                     fprintf(stderr, "  -> %s included.\n", sname);
                 } else {
                     fprintf(stderr, "  -> %s excluded.\n", sname);
@@ -1101,33 +1468,35 @@ static int run_discover(const char *device_prefix) {
         }
     }
 
-    /* JSON output (stdout) — only confirmed signals */
-    printf("{\n");
-    printf("  \"bus_mode\":\"%s\"", disc_bus_mode_name(bus_mode));
-    bool first = false;
-    for (int s = 0; s < DISC_SIG_COUNT; s++) {
-        if (!result.found[s]) continue;
-        printf(",\n");
-
-        const disc_candidate_t *c = &result.signals[s];
-        printf("  \"%s\":{\"can_id\":\"0x%03X\",\"dlc\":%d,\"hz\":%.1f",
-               disc_signal_name((disc_signal_t)s), c->can_id, c->dlc, c->hz);
-        if (c->byte_idx >= 0)
-            printf(",\"byte\":%d", c->byte_idx);
-        if (c->byte2_idx >= 0)
-            printf(",\"byte2\":%d", c->byte2_idx);
-        printf(",\"score\":%.1f,\"confidence\":\"%s\"",
-               c->score, disc_confidence_name(c->confidence));
-        if (c->byte2_idx >= 0 && c->endianness != DISC_ENDIAN_UNKNOWN)
-            printf(",\"endian\":\"%s\"", disc_endian_name(c->endianness));
-        if (c->signedness != DISC_SIGN_UNKNOWN)
-            printf(",\"signed\":%s", c->signedness == DISC_SIGN_SIGNED ? "true" : "false");
-        if (c->signedness != DISC_SIGN_UNKNOWN)
-            printf(",\"raw_min\":%d,\"raw_max\":%d", c->raw_min, c->raw_max);
-        printf("}");
+    disc_make_draft_dbc_path(dbc_path, sizeof(dbc_path),
+                             dump_enabled ? dump_dir : NULL);
+    bool dbc_written = disc_write_draft_dbc(dbc_path, phases, raw_phases, &result);
+    if (dbc_written) {
+        cli_log("Draft DBC written: %s", dbc_path);
+    } else {
+        fprintf(stderr, "[WARN] Failed to write draft DBC: %s\n", dbc_path);
     }
-    if (!first) printf("\n");
-    printf("}\n");
+
+    if (dump_enabled) {
+        if (!disc_write_result_json(result_path, have_bus_mode, bus_mode,
+                                    dump_dir, dbc_written ? dbc_path : NULL, &result)) {
+            fprintf(stderr, "[WARN] Failed to write result JSON: %s\n", result_path);
+            result_path[0] = '\0';
+        }
+        if (!disc_write_manifest(manifest_path, "completed", device_prefix,
+                                 connected_name, monitor_cmd,
+                                 have_bus_mode, bus_mode,
+                                 dbc_written ? dbc_path : NULL,
+                                 result_path[0] ? result_path : NULL,
+                                 phase_meta)) {
+            fprintf(stderr, "[WARN] Failed to write manifest: %s\n", manifest_path);
+        }
+    }
+
+    /* JSON output (stdout) — only confirmed signals */
+    disc_write_result_json_object(stdout, have_bus_mode, bus_mode,
+                                  dump_enabled ? dump_dir : NULL,
+                                  dbc_written ? dbc_path : NULL, &result);
 
     /* Summary to stderr */
     fprintf(stderr, "\n=== Final Results ===\n");
@@ -1138,17 +1507,30 @@ static int run_discover(const char *device_prefix) {
         }
     }
 
+    disc_free_raw_phases(raw_phases);
     [g_ble disconnect];
     g_interrupt = NO;
     return 0;
 
 interrupted:
     fprintf(stderr, "\n[INFO] Interrupted by user\n");
+    if (dump_enabled) {
+        disc_write_manifest(manifest_path, "interrupted", device_prefix,
+                            connected_name, monitor_cmd, have_bus_mode, bus_mode,
+                            NULL, NULL, phase_meta);
+    }
+    disc_free_raw_phases(raw_phases);
     [g_ble disconnect];
     return 130;
 
 disconnected:
     fprintf(stderr, "\n[ERROR] Connection lost during discover\n");
+    if (dump_enabled) {
+        disc_write_manifest(manifest_path, "disconnected", device_prefix,
+                            connected_name, monitor_cmd, have_bus_mode, bus_mode,
+                            NULL, NULL, phase_meta);
+    }
+    disc_free_raw_phases(raw_phases);
     return 1;
 }
 
@@ -1160,24 +1542,44 @@ int main(int argc, const char *argv[]) {
 
     @autoreleasepool {
         const char *device_prefix = NULL;
+        const char *dump_dir_override = NULL;
 
         if (argc >= 2) {
-            if (strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0 ||
-                strcmp(argv[1], "help") == 0) {
-                fprintf(stderr, "Usage: canbus_discover [device_prefix]\n");
-                fprintf(stderr, "\n");
-                fprintf(stderr, "  PT-CAN signal auto-discovery tool.\n");
-                fprintf(stderr, "  Connects via BLE/Classic BT, captures CAN traffic in 5 phases,\n");
-                fprintf(stderr, "  and identifies steering/RPM/throttle/brake/gear signals.\n");
-                fprintf(stderr, "\n");
-                fprintf(stderr, "  device_prefix: BLE name prefix (e.g., vLinker, OBDLink)\n");
-                fprintf(stderr, "                 If omitted, connects to first discovered device.\n");
-                fprintf(stderr, "\n");
-                fprintf(stderr, "  JSON output on stdout, logs on stderr.\n");
-                fprintf(stderr, "  Use 2>/dev/null to get clean JSON.\n");
-                return 0;
+            for (int i = 1; i < argc; i++) {
+                if (strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "--help") == 0 ||
+                    strcmp(argv[i], "help") == 0) {
+                    fprintf(stderr, "Usage: canbus_discover [device_prefix] [--dump-dir DIR]\n");
+                    fprintf(stderr, "\n");
+                    fprintf(stderr, "  PT-CAN signal auto-discovery tool.\n");
+                    fprintf(stderr, "  Connects via BLE/Classic BT, captures CAN traffic in 6 phases,\n");
+                    fprintf(stderr, "  and identifies steering/RPM/throttle/brake/gear/wheel speed signals.\n");
+                    fprintf(stderr, "\n");
+                    fprintf(stderr, "  device_prefix: BLE name prefix (e.g., vLinker, OBDLink)\n");
+                    fprintf(stderr, "                 If omitted, connects to first discovered device.\n");
+                    fprintf(stderr, "  --dump-dir DIR: Override the default capture dump directory.\n");
+                    fprintf(stderr, "                  Default: captures/YYYYMMDD_HHMMSS\n");
+                    fprintf(stderr, "\n");
+                    fprintf(stderr, "  JSON output on stdout, logs on stderr.\n");
+                    fprintf(stderr, "  Also writes phase dumps, result.json, manifest.json,\n");
+                    fprintf(stderr, "  and a draft DBC into the dump directory.\n");
+                    fprintf(stderr, "  Use 2>/dev/null to get clean JSON.\n");
+                    return 0;
+                } else if (strcmp(argv[i], "--dump-dir") == 0) {
+                    if (i + 1 >= argc) {
+                        fprintf(stderr, "[ERROR] --dump-dir requires a directory path\n");
+                        return 1;
+                    }
+                    dump_dir_override = argv[++i];
+                } else if (strncmp(argv[i], "--dump-dir=", 11) == 0) {
+                    dump_dir_override = argv[i] + 11;
+                } else if (!device_prefix) {
+                    device_prefix = argv[i];
+                } else {
+                    fprintf(stderr, "[ERROR] Unexpected argument: %s\n", argv[i]);
+                    fprintf(stderr, "Usage: canbus_discover [device_prefix] [--dump-dir DIR]\n");
+                    return 1;
+                }
             }
-            device_prefix = argv[1];
         }
 
         /* Initialize dependencies */
@@ -1190,7 +1592,7 @@ int main(int argc, const char *argv[]) {
 
         g_ble = [[BLEManager alloc] init];
 
-        int ret = run_discover(device_prefix);
+        int ret = run_discover(device_prefix, dump_dir_override);
 
         return ret;
     }
