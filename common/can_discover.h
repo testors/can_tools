@@ -20,6 +20,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#include "elm327.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -160,6 +161,12 @@ typedef struct {
     disc_bus_mode_t  bus_mode;                  /**< Detected bus mode */
 } disc_result_t;
 
+/** Raw CAN frames captured for one phase */
+typedef struct {
+    can_frame_t *frames;        /**< Owned frame buffer */
+    int          frame_count;   /**< Number of stored frames */
+} disc_raw_phase_t;
+
 /*******************************************************************************
  * API
  ******************************************************************************/
@@ -169,6 +176,11 @@ typedef struct {
  * @param phase Phase structure to initialize
  */
 void disc_phase_init(disc_phase_t *phase);
+
+/**
+ * @brief Initialize a discovery result container
+ */
+void disc_result_init(disc_result_t *result);
 
 /**
  * @brief Add a CAN frame to phase statistics
@@ -188,6 +200,30 @@ void disc_phase_add_frame(disc_phase_t *phase, uint32_t can_id,
 void disc_phase_finalize(disc_phase_t *phase, double duration_s);
 
 /**
+ * @brief Initialize a raw capture phase container
+ */
+void disc_raw_phase_init(disc_raw_phase_t *phase);
+
+/**
+ * @brief Replace raw capture frames for a phase
+ *
+ * Copies the provided frame array into owned storage.
+ *
+ * @param phase Output phase container
+ * @param frames Source frame array
+ * @param frame_count Number of frames to copy
+ * @return true if the copy succeeded
+ */
+bool disc_raw_phase_set(disc_raw_phase_t *phase,
+                        const can_frame_t *frames,
+                        int frame_count);
+
+/**
+ * @brief Free any owned raw capture frames
+ */
+void disc_raw_phase_free(disc_raw_phase_t *phase);
+
+/**
  * @brief Analyze all phases and classify signals
  *
  * Compares each active phase against baseline, scores CAN IDs,
@@ -200,6 +236,21 @@ void disc_phase_finalize(disc_phase_t *phase, double duration_s);
  */
 void disc_analyze(const disc_phase_t phases[DISC_NUM_PHASES],
                    disc_result_t *result);
+
+/**
+ * @brief Analyze all phases with raw-frame assistance
+ *
+ * Performs the same end-to-end discovery as disc_analyze(), but also uses
+ * per-phase raw frame sequences to suppress rolling counters and improve
+ * bitfield selection. Detected candidates are characterized in-place.
+ *
+ * @param phases Aggregate phase statistics
+ * @param raw_phases Raw frames captured for each phase
+ * @param result Output: classified signals
+ */
+void disc_analyze_with_raw(const disc_phase_t phases[DISC_NUM_PHASES],
+                           const disc_raw_phase_t raw_phases[DISC_NUM_PHASES],
+                           disc_result_t *result);
 
 /**
  * @brief Classify a single signal from one phase
@@ -224,6 +275,22 @@ bool disc_classify(const disc_phase_t *baseline,
                    const uint32_t *excl, int excl_count,
                    disc_candidate_t *out,
                    disc_candidate_t *rpm_out, bool *rpm_found);
+
+/**
+ * @brief Raw-aware classification variant
+ *
+ * Uses the same phase statistics as disc_classify(), but may also consult
+ * raw frame sequences to suppress rolling counters / checksums and improve
+ * candidate selection.
+ */
+bool disc_classify_with_raw(const disc_phase_t *baseline,
+                            const disc_raw_phase_t *baseline_raw,
+                            const disc_phase_t *active,
+                            const disc_raw_phase_t *active_raw,
+                            disc_signal_t signal,
+                            const uint32_t *excl, int excl_count,
+                            disc_candidate_t *out,
+                            disc_candidate_t *rpm_out, bool *rpm_found);
 
 /**
  * @brief Characterize a detected signal (endianness, signedness, raw range)
@@ -273,6 +340,41 @@ disc_bus_mode_t disc_detect_bus_mode(const disc_phase_t *baseline);
  * @brief Get human-readable name for bus mode
  */
 const char *disc_bus_mode_name(disc_bus_mode_t mode);
+
+/**
+ * @brief Write a draft DBC file from discovered signals
+ *
+ * The generated DBC is intentionally conservative: it emits raw-value signals
+ * and comments that indicate the discovery phase, confidence, and observed
+ * range. The file is meant to be reviewed and refined by a human.
+ *
+ * @param path Output file path
+ * @param phases Aggregate phase statistics
+ * @param raw_phases Raw frames captured for each phase
+ * @param result Confirmed discovery result
+ * @return true if the file was written
+ */
+bool disc_write_draft_dbc(const char *path,
+                          const disc_phase_t phases[DISC_NUM_PHASES],
+                          const disc_raw_phase_t raw_phases[DISC_NUM_PHASES],
+                          const disc_result_t *result);
+
+/**
+ * @brief Render a draft DBC into a newly allocated string
+ *
+ * The returned buffer is allocated with malloc(); the caller owns it and must
+ * free() it when finished.
+ *
+ * @param phases Aggregate phase statistics
+ * @param raw_phases Raw frames captured for each phase
+ * @param result Confirmed discovery result
+ * @param length_out Optional output length in bytes (excluding NUL)
+ * @return malloc-owned DBC text, or NULL on failure
+ */
+char *disc_render_draft_dbc(const disc_phase_t phases[DISC_NUM_PHASES],
+                            const disc_raw_phase_t raw_phases[DISC_NUM_PHASES],
+                            const disc_result_t *result,
+                            size_t *length_out);
 
 #ifdef __cplusplus
 }

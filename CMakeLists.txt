@@ -12,11 +12,18 @@ endif()
 # Common include path
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/common)
 
-# Common source files
+# Discovery core library
+add_library(can_discover_core STATIC
+    common/can_discover.c
+)
+target_include_directories(can_discover_core PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/common
+)
+
+# Shared transport / protocol sources
 set(COMMON_SOURCES
     common/elm327.c
     common/stn2255.c
-    common/can_discover.c
 )
 
 # --- can_reader ---
@@ -25,6 +32,7 @@ add_executable(can_reader
     ${COMMON_SOURCES}
 )
 target_link_libraries(can_reader
+    can_discover_core
     "-framework CoreBluetooth"
     "-framework IOBluetooth"
     "-framework Foundation"
@@ -37,6 +45,7 @@ add_executable(can_discover
     ${COMMON_SOURCES}
 )
 target_link_libraries(can_discover
+    can_discover_core
     "-framework CoreBluetooth"
     "-framework IOBluetooth"
     "-framework Foundation"
@@ -46,4 +55,4 @@ target_link_libraries(can_discover
 message(STATUS "CAN Tools Build Configuration")
 message(STATUS "  Build type: ${CMAKE_BUILD_TYPE}")
 message(STATUS "  C Compiler: ${CMAKE_C_COMPILER}")
-message(STATUS "  Targets: can_reader, can_discover")
+message(STATUS "  Targets: can_discover_core, can_reader, can_discover")
