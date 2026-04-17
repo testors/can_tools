@@ -1,0 +1,67 @@
+VERSION ""
+
+NS_ :
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIGTYPE_VALTYPE_
+	SG_MUL_VAL_
+
+BS_: 500
+
+BU_: Vector__XXX
+
+BO_ 768 MSG_300: 8 Vector__XXX
+ SG_ Intake_Air_Temperature : 0|8@1+ (0.75,-48) [0|0] "��C" Vector__XXX
+ SG_ Oil_Pressure : 16|8@1+ (0.04,0) [0|10] "bar" Vector__XXX
+ SG_ Oil_Temperature : 24|8@1+ (1,-60) [-60|192] "��C" Vector__XXX
+ SG_ Throttle_Position : 32|8@1+ (0.4,0) [0|101.6] "%" Vector__XXX
+ SG_ Engine_Speed : 40|16@1+ (0.25,0) [0|10000] "rpm" Vector__XXX
+ SG_ Coolant_Temperature : 56|8@1+ (0.75,-48) [-48|142.5] "��C" Vector__XXX
+
+BO_ 769 MSG_301: 8 Vector__XXX
+ SG_ Indicated_Lateral_Acceleration : 0|9@1+ (0.01,-2.55) [-2.55|2.55] "g" Vector__XXX
+ SG_ Indicated_Longitudinal_Acceleration : 9|10@1+ (0.03125,-16) [-16|15.90625] "m/s��" Vector__XXX
+ SG_ Yaw_Rate : 24|10@1- (0.1,0) [-102.2|102.2] "��/s" Vector__XXX
+ SG_ Steering_Angle : 40|13@1+ (0.1,0) [0|800] "��" Vector__XXX
+ SG_ Steering_Direction : 53|1@1+ (1,0) [0|1] "" Vector__XXX
+
+BO_ 770 MSG_302: 8 Vector__XXX
+ SG_ Indicated_Vehicle_Speed_kph : 0|16@1+ (0.01,0) [0|655.32] "km/h" Vector__XXX
+ SG_ Indicated_Vehicle_Speed_mph : 0|16@1+ (0.00621,0) [0|406.95372] "mph" Vector__XXX
+ SG_ Wheel_Speed_FL_kph : 16|12@1+ (0.1,0) [0|409.2] "km/h" Vector__XXX
+ SG_ Wheel_Speed_FL_mph : 16|12@1+ (0.0621,0) [0|254.1132] "mph" Vector__XXX
+ SG_ Wheel_Speed_FR_kph : 32|12@1+ (0.1,0) [0|409.2] "km/h" Vector__XXX
+ SG_ Wheel_Speed_FR_mph : 32|12@1+ (0.0621,0) [0|254.1132] "mph" Vector__XXX
+ SG_ Wheel_Speed_RL_kph : 40|12@1+ (0.1,0) [0|409.2] "km/h" Vector__XXX
+ SG_ Wheel_Speed_RL_mph : 40|12@1+ (0.0621,0) [0|254.1132] "mph" Vector__XXX
+ SG_ Wheel_Speed_RR_kph : 52|12@1+ (0.1,0) [0|409.2] "km/h" Vector__XXX
+ SG_ Wheel_Speed_RR_mph : 52|12@1+ (0.0621,0) [0|254.1132] "mph" Vector__XXX
+
+BO_ 771 MSG_303: 8 Vector__XXX
+ SG_ Battery_Voltage : 0|8@1+ (0.05,5) [5|17.75] "V" Vector__XXX
+ SG_ Fuel_Level : 8|7@1+ (1,0) [0|0] "L" Vector__XXX
+ SG_ Odometer_Reading : 16|20@1+ (1,0) [0|1048573] "km" Vector__XXX
+ SG_ Gear : 36|4@1+ (1,0) [0|15] "" Vector__XXX
+
+BO_ 772 MSG_304: 8 Vector__XXX
+ SG_ Brake_Pressure : 0|10@1+ (0.3,-30) [-30|276] "bar" Vector__XXX
+ SG_ Brake_Position : 10|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Traction_Control_Mode : 17|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Air_Temperature : 24|8@1+ (0.5,-50) [-50|75] "��C" Vector__XXX
+

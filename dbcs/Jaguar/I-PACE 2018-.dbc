@@ -1,0 +1,53 @@
+VERSION ""
+
+NS_ :
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIGTYPE_VALTYPE_
+	SG_MUL_VAL_
+
+BS_: 500
+
+BU_: Vector__XXX
+
+BO_ 224 MSG_0E0: 8 Vector__XXX
+ SG_ Accelerator_Pedal_Position : 56|8@0+ (0.5,0) [0|255] "%" Vector__XXX
+
+BO_ 242 MSG_0F2: 8 Vector__XXX
+ SG_ Steering_Angle : 16|14@0+ (-0.1,780) [-700|700] "��" Vector__XXX
+
+BO_ 350 MSG_15E: 8 Vector__XXX
+ SG_ Head_Temperature : 16|1@0+ (1,0) [0|1] "on/off" Vector__XXX
+ SG_ Full_Beam : 20|1@0+ (1,0) [0|1] "on/off" Vector__XXX
+
+BO_ 495 MSG_1EF: 8 Vector__XXX
+ SG_ Ride_Height_RR : 0|8@0+ (1,0) [0|255] "" Vector__XXX
+ SG_ Ride_Height_RL : 16|8@0+ (1,0) [0|255] "" Vector__XXX
+ SG_ Ride_Height_FR : 32|8@0+ (1,0) [0|255] "" Vector__XXX
+ SG_ Ride_Height_FL : 48|8@0+ (1,0) [0|255] "" Vector__XXX
+
+BO_ 500 MSG_1F4: 8 Vector__XXX
+ SG_ Brake_Position : 48|10@0+ (0.2,0) [0|100] "%" Vector__XXX
+
+BO_ 552 MSG_228: 8 Vector__XXX
+ SG_ Gear_Switch : 8|3@0+ (1,0) [0|7] "" Vector__XXX
+
+BO_ 784 MSG_310: 8 Vector__XXX
+ SG_ Side_Lights : 3|1@0+ (1,0) [0|1] "on/off" Vector__XXX
+

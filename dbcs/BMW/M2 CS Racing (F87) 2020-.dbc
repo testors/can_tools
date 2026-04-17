@@ -1,0 +1,46 @@
+VERSION ""
+
+NS_ :
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIGTYPE_VALTYPE_
+	SG_MUL_VAL_
+
+BS_: 500
+
+BU_: Vector__XXX
+
+BO_ 1536 MSG_600: 8 Vector__XXX
+ SG_ Gear : 0|3@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Indicated_Vehicle_Speed_kph : 32|16@0+ (0.015625,0) [0|350] "km/h" Vector__XXX
+ SG_ Indicated_Vehicle_Speed_mph : 32|16@0+ (0.009703125,0) [0|217.35] "mph" Vector__XXX
+ SG_ Engine_Speed : 48|16@0+ (0.25,0) [0|0] "rpm" Vector__XXX
+
+BO_ 1541 MSG_605: 8 Vector__XXX
+ SG_ Brake_Light : 7|1@0+ (1,0) [0|0] "on/off" Vector__XXX
+ SG_ Brake_Bias : 24|16@0+ (0.01,0) [0|0] "%" Vector__XXX
+ SG_ Brake_Pressure____Front : 40|12@0+ (0.04,0) [0|160] "bar" Vector__XXX
+ SG_ Brake_Pressure___Rear : 52|12@0+ (0.04,0) [0|160] "bar" Vector__XXX
+
+BO_ 1542 MSG_606: 8 Vector__XXX
+ SG_ Steering_Angle : 48|16@0+ (0.04395,-1440.11) [-1440.11|1440.11] "��" Vector__XXX
+
+BO_ 1619 MSG_653: 8 Vector__XXX
+ SG_ Throttle_Position : 56|8@0+ (0.5,0) [0|0] "%" Vector__XXX
+

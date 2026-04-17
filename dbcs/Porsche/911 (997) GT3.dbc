@@ -1,0 +1,69 @@
+VERSION ""
+
+NS_ :
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIGTYPE_VALTYPE_
+	SG_MUL_VAL_
+
+BS_: 500
+
+BU_: Vector__XXX
+
+BO_ 194 MSG_0C2: 8 Vector__XXX
+ SG_ Steering_Angle : 0|15@1+ (0.0439453125,0) [0|1439.95605469] "��" Vector__XXX
+ SG_ Steering_Direction : 15|1@1+ (1,0) [0|1] "" Vector__XXX
+
+BO_ 330 MSG_14A: 8 Vector__XXX
+ SG_ Handbrake : 15|1@1+ (1,0) [0|1] "on/off" Vector__XXX
+ SG_ Indicated_Vehicle_Speed_kph : 16|16@1+ (0.01,0) [0|655] "km/h" Vector__XXX
+ SG_ Indicated_Vehicle_Speed_mph : 16|16@1+ (0.00621,0) [0|406.755] "mph" Vector__XXX
+
+BO_ 578 MSG_242: 8 Vector__XXX
+ SG_ Engine_Speed : 16|16@1+ (0.25,0) [0|10000] "rpm" Vector__XXX
+ SG_ Throttle_Position : 40|8@1+ (0.392156862745,0) [0|100] "%" Vector__XXX
+
+BO_ 582 MSG_246: 8 Vector__XXX
+ SG_ Gear : 0|3@1+ (1,0) [0|7] "" Vector__XXX
+
+BO_ 586 MSG_24A: 8 Vector__XXX
+ SG_ Wheel_Speed_FL_kph : 0|16@1+ (0.01,0) [0|655] "km/h" Vector__XXX
+ SG_ Wheel_Speed_FL_mph : 0|16@1+ (0.00621,0) [0|406.755] "mph" Vector__XXX
+ SG_ Wheel_Speed_FR_kph : 16|16@1+ (0.01,0) [0|655] "km/h" Vector__XXX
+ SG_ Wheel_Speed_FR_mph : 16|16@1+ (0.00621,0) [0|406.755] "mph" Vector__XXX
+ SG_ Wheel_Speed_RL_kph : 32|16@1+ (0.01,0) [0|655] "km/h" Vector__XXX
+ SG_ Wheel_Speed_RL_mph : 32|16@1+ (0.00621,0) [0|406.755] "mph" Vector__XXX
+ SG_ Wheel_Speed_RR_kph : 48|16@1+ (0.01,0) [0|655] "km/h" Vector__XXX
+ SG_ Wheel_Speed_RR_mph : 48|16@1+ (0.00621,0) [0|406.755] "mph" Vector__XXX
+
+BO_ 776 MSG_308: 8 Vector__XXX
+ SG_ Headlights : 11|1@1+ (1,0) [0|1] "on/off" Vector__XXX
+
+BO_ 1089 MSG_441: 8 Vector__XXX
+ SG_ Boost_Pressure : 32|8@1+ (0.01,0) [0|2.55] "bar" Vector__XXX
+ SG_ Oil_Temperature : 40|8@1+ (0.75,-48) [-48|142.5] "��C" Vector__XXX
+ SG_ Oil_Pressure : 48|8@1+ (0.0398,0) [0|10.16] "bar" Vector__XXX
+ SG_ Coolant_Temperature : 56|8@1+ (1,-40) [-40|215] "��C" Vector__XXX
+
+BO_ 1099 MSG_44B: 8 Vector__XXX
+ SG_ Brake_Position : 0|8@1+ (0.5,0) [0|100] "" Vector__XXX
+
+BO_ 1282 MSG_502: 8 Vector__XXX
+ SG_ Clutch_Position : 21|1@1+ (1,0) [0|1] "" Vector__XXX
+

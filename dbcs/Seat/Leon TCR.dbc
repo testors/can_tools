@@ -1,0 +1,51 @@
+VERSION ""
+
+NS_ :
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIGTYPE_VALTYPE_
+	SG_MUL_VAL_
+
+BS_: 500
+
+BU_: Vector__XXX
+
+BO_ 262 MSG_106: 8 Vector__XXX
+ SG_ Brake_Pressure : 16|9@1+ (0.30303,-30.303) [-30.303030303|124.545454545] "bar" Vector__XXX
+
+BO_ 289 MSG_121: 8 Vector__XXX
+ SG_ Throttle_Position : 12|8@1+ (0.4,0) [0|102] "%" Vector__XXX
+
+BO_ 301 MSG_12D: 8 Vector__XXX
+ SG_ Engine_Speed : 48|16@1- (1,0) [0|10000] "rpm" Vector__XXX
+
+BO_ 916 MSG_394: 8 Vector__XXX
+ SG_ Gear : 40|4@1+ (1,0) [0|15] "" Vector__XXX
+
+BO_ 989 MSG_3DD: 8 Vector__XXX
+ SG_ Gear_Down : 0|1@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Gear_Up : 1|1@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 1626 MSG_65A: 8 Vector__XXX
+ SG_ Fog_Lights : 56|1@0+ (1,0) [0|0] "on/off" Vector__XXX
+ SG_ Headlights : 57|1@0+ (1,0) [0|0] "on/off" Vector__XXX
+
+BO_ 1629 MSG_65D: 8 Vector__XXX
+ SG_ Differential_Map : 24|2@1+ (1,0) [0|3] "" Vector__XXX
+

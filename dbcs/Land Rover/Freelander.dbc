@@ -1,0 +1,76 @@
+VERSION ""
+
+NS_ :
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIGTYPE_VALTYPE_
+	SG_MUL_VAL_
+
+BS_: 500
+
+BU_: Vector__XXX
+
+BO_ 131 MSG_083: 8 Vector__XXX
+ SG_ Gear : 16|3@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 148 MSG_094: 8 Vector__XXX
+ SG_ Steering_Angle : 0|15@0+ (0.04395,0) [0|1440.10965] "��" Vector__XXX
+
+BO_ 279 MSG_117: 8 Vector__XXX
+ SG_ Accelerator_Pedal_Position : 32|10@0+ (0.1,0) [0|102.3] "%" Vector__XXX
+
+BO_ 298 MSG_12A: 8 Vector__XXX
+ SG_ Engine_Speed : 0|13@0+ (1,0) [0|8191] "rpm" Vector__XXX
+
+BO_ 323 MSG_143: 8 Vector__XXX
+ SG_ Brake_Position : 48|8@0+ (0.4,0) [0|102] "%" Vector__XXX
+
+BO_ 336 MSG_150: 8 Vector__XXX
+ SG_ Indicated_Vehicle_Speed_kph : 0|16@0+ (0.01,0) [0|320] "km/h" Vector__XXX
+ SG_ Indicated_Vehicle_Speed_mph : 0|16@0+ (0.00621,0) [0|198.72] "mph" Vector__XXX
+ SG_ Brake_Pressure : 16|10@0+ (0.2,0) [0|204.6] "" Vector__XXX
+
+BO_ 341 MSG_155: 8 Vector__XXX
+ SG_ Yaw_Rate : 0|12@0+ (0.03663,-75) [-75|74.99985] "��/s" Vector__XXX
+ SG_ Indicated_Lateral_Acceleration : 32|10@0+ (0.035,-17.9) [-17.9|17.905] "" Vector__XXX
+
+BO_ 592 MSG_250: 8 Vector__XXX
+ SG_ Wheel_Speed_RL_kph : 0|15@0+ (0.01,0) [0|327.67] "km/h" Vector__XXX
+ SG_ Wheel_Speed_RL_mph : 0|15@0+ (0.00621,0) [0|203.48307] "mph" Vector__XXX
+ SG_ Wheel_Speed_RR_kph : 16|15@0+ (0.01,0) [0|327.67] "km/h" Vector__XXX
+ SG_ Wheel_Speed_RR_mph : 16|15@0+ (0.00621,0) [0|203.48307] "mph" Vector__XXX
+
+BO_ 693 MSG_2B5: 8 Vector__XXX
+ SG_ Wheel_Speed_FL_kph : 0|15@0+ (0.01,0) [0|327.67] "km/h" Vector__XXX
+ SG_ Wheel_Speed_FL_mph : 0|15@0+ (0.00621,0) [0|203.48307] "mph" Vector__XXX
+ SG_ Wheel_Speed_FR_kph : 16|15@0+ (0.01,0) [0|327.67] "km/h" Vector__XXX
+ SG_ Wheel_Speed_FR_mph : 16|15@0+ (0.00621,0) [0|203.48307] "mph" Vector__XXX
+
+BO_ 789 MSG_315: 8 Vector__XXX
+ SG_ Clutch_Position : 24|10@0+ (0.1,0) [0|102.3] "%" Vector__XXX
+
+BO_ 801 MSG_321: 8 Vector__XXX
+ SG_ Indicated_Longitudinal_Acceleration : 24|10@0+ (0.035,-17.9) [-17.9|17.905] "" Vector__XXX
+
+BO_ 901 MSG_385: 8 Vector__XXX
+ SG_ Air_Temperature : 24|10@0+ (0.25,-128) [-128|127.75] "" Vector__XXX
+
+BO_ 979 MSG_3D3: 8 Vector__XXX
+ SG_ Coolant_Temperature : 24|8@0+ (1,-60) [-60|195] "" Vector__XXX
+

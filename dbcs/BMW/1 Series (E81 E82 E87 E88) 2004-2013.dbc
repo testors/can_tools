@@ -1,0 +1,70 @@
+VERSION ""
+
+NS_ :
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIGTYPE_VALTYPE_
+	SG_MUL_VAL_
+
+BS_: 500
+
+BU_: Vector__XXX
+
+BO_ 170 MSG_0AA: 8 Vector__XXX
+ SG_ Engine_Speed : 32|16@1+ (0.25,0) [0|65535] "rpm" Vector__XXX
+ SG_ Throttle_Position : 32|8@0+ (0.390625,0) [0|100] "" Vector__XXX
+
+BO_ 196 MSG_0C4: 7 Vector__XXX
+ SG_ Steering_Angle : 0|16@1- (0.0439453,0) [-32768|32767] "��" Vector__XXX
+
+BO_ 206 MSG_0CE: 8 Vector__XXX
+ SG_ Wheel_Speed_FL_kph : 0|16@1- (0.0625,0) [0|65535] "km/h" Vector__XXX
+ SG_ Wheel_Speed_FL_mph : 0|16@1- (0.0388125,0) [0|40697.235] "mph" Vector__XXX
+ SG_ Wheel_Speed_FR_kph : 16|16@1- (0.0625,0) [0|65535] "km/h" Vector__XXX
+ SG_ Wheel_Speed_FR_mph : 16|16@1- (0.0388125,0) [0|40697.235] "mph" Vector__XXX
+ SG_ Wheel_Speed_RL_kph : 32|16@1- (0.0625,0) [0|65535] "km/h" Vector__XXX
+ SG_ Wheel_Speed_RL_mph : 32|16@1- (0.0388125,0) [0|40697.235] "mph" Vector__XXX
+ SG_ Wheel_Speed_RR_kph : 48|16@1- (0.0625,0) [0|65535] "km/h" Vector__XXX
+ SG_ Wheel_Speed_RR_mph : 48|16@1- (0.0388125,0) [0|40697.235] "mph" Vector__XXX
+
+BO_ 414 MSG_19E: 8 Vector__XXX
+ SG_ Brake_Position : 16|2@0+ (1,0) [0|3] "" Vector__XXX
+
+BO_ 416 MSG_1A0: 8 Vector__XXX
+ SG_ Indicated_Longitudinal_Acceleration : 16|12@1- (0.0254,0) [-51|52] "m/s��" Vector__XXX
+ SG_ Indicated_Lateral_Acceleration : 28|12@1- (0.0254,0) [-51|52] "m/s��" Vector__XXX
+ SG_ Gyroscope : 40|12@1- (0.1,0) [-20.47|20.47] "��" Vector__XXX
+
+BO_ 436 MSG_1B4: 8 Vector__XXX
+ SG_ Indicated_Vehicle_Speed : 0|12@1+ (0.1,0) [-2048|2047] "" Vector__XXX
+
+BO_ 464 MSG_1D0: 8 Vector__XXX
+ SG_ Manifold_Pressure : 32|8@0+ (2,598) [598|1108] "mbar" Vector__XXX
+ SG_ Oil_Temperature : 48|8@0+ (1,-48) [-48|207] "��C" Vector__XXX
+ SG_ Coolant_Temperature : 56|8@0+ (1,-48) [-48|207] "��C" Vector__XXX
+
+BO_ 690 MSG_2B2: 8 Vector__XXX
+ SG_ Brake_Pressure___Rear_Right : 32|8@0+ (1,0) [0|255] "" Vector__XXX
+ SG_ Brake_Pressure___Rear_Left : 40|8@0+ (1,0) [0|255] "" Vector__XXX
+ SG_ Brake_Pressure___Front_Right : 48|8@0+ (1,0) [0|255] "" Vector__XXX
+ SG_ Brake_Pressure___Front_Left : 56|8@0+ (1,0) [0|255] "" Vector__XXX
+
+BO_ 816 MSG_330: 8 Vector__XXX
+ SG_ Odometer_Reading : 0|16@1- (1,0) [0|65535] "km" Vector__XXX
+

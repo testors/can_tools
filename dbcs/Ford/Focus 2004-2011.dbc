@@ -1,0 +1,52 @@
+VERSION ""
+
+NS_ :
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIGTYPE_VALTYPE_
+	SG_MUL_VAL_
+
+BS_: 500
+
+BU_: Vector__XXX
+
+BO_ 513 MSG_201: 8 Vector__XXX
+ SG_ Throttle_Position : 8|8@0+ (0.5,0) [0|100] "%" Vector__XXX
+ SG_ Engine_Speed : 48|16@0+ (0.25,0) [0|10000] "rpm" Vector__XXX
+
+BO_ 517 MSG_205: 8 Vector__XXX
+ SG_ Brake_Position : 22|1@1+ (1,0) [0|1] "on/off" Vector__XXX
+
+BO_ 527 MSG_20F: 8 Vector__XXX
+ SG_ Indicated_Vehicle_Speed_kph : 32|16@0+ (0.0100040761944,-62.13711922) [0|0] "km/h" Vector__XXX
+ SG_ Indicated_Vehicle_Speed_mph : 32|16@0+ (0.006213711922,-62.13711922) [0|0] "mph" Vector__XXX
+
+BO_ 624 MSG_270: 8 Vector__XXX
+ SG_ Boost_Pressure : 48|8@0+ (0.00706,0) [0|1.8003] "bar" Vector__XXX
+
+BO_ 1200 MSG_4B0: 8 Vector__XXX
+ SG_ Wheel_Speed_RR_kph : 0|16@0+ (0.01,-100) [0|350] "km/h" Vector__XXX
+ SG_ Wheel_Speed_RR_mph : 0|16@0+ (0.00621,-100) [0|217.35] "mph" Vector__XXX
+ SG_ Wheel_Speed_RL_kph : 16|16@0+ (0.01,-100) [0|350] "km/h" Vector__XXX
+ SG_ Wheel_Speed_RL_mph : 16|16@0+ (0.00621,-100) [0|217.35] "mph" Vector__XXX
+ SG_ Wheel_Speed_FR_kph : 32|16@0+ (0.01,-100) [0|350] "km/h" Vector__XXX
+ SG_ Wheel_Speed_FR_mph : 32|16@0+ (0.00621,-100) [0|217.35] "mph" Vector__XXX
+ SG_ Wheel_Speed_FL_kph : 48|16@0+ (0.01,-100) [0|350] "km/h" Vector__XXX
+ SG_ Wheel_Speed_FL_mph : 48|16@0+ (0.00621,-100) [0|217.35] "mph" Vector__XXX
+

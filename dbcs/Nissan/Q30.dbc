@@ -1,0 +1,38 @@
+VERSION ""
+
+NS_ :
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIGTYPE_VALTYPE_
+	SG_MUL_VAL_
+
+BS_: 500
+
+BU_: Vector__XXX
+
+BO_ 5 MSG_005: 4 Vector__XXX
+ SG_ Brake_Position : 32|16@0+ (0.0805153,0) [0|5276.57004831] "%" Vector__XXX
+
+BO_ 261 MSG_105: 5 Vector__XXX
+ SG_ Throttle_Position : 24|8@0+ (0.4,0) [0|102] "%" Vector__XXX
+ SG_ Engine_Speed : 48|15@0+ (1,0) [0|10000] "rpm" Vector__XXX
+
+BO_ 554 MSG_22A: 4 Vector__XXX
+ SG_ Steering_Angle : 32|16@0+ (0.0598802,-979.94) [-979.94011976|2944.31137725] "" Vector__XXX
+

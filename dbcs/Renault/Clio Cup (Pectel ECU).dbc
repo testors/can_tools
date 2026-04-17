@@ -1,0 +1,34 @@
+VERSION ""
+
+NS_ :
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIGTYPE_VALTYPE_
+	SG_MUL_VAL_
+
+BS_: 500
+
+BU_: Vector__XXX
+
+BO_ 264 MSG_108: 8 Vector__XXX
+ SG_ Throttle_Position : 16|16@0+ (0.0998004,-0.0998004) [-0.0998003992016|6540.31936128] "%" Vector__XXX
+
+BO_ 392 MSG_188: 8 Vector__XXX
+ SG_ Gear : 32|4@0+ (1,-1) [-1|14] "" Vector__XXX
+

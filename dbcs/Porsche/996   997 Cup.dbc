@@ -1,0 +1,38 @@
+VERSION ""
+
+NS_ :
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIGTYPE_VALTYPE_
+	SG_MUL_VAL_
+
+BS_: 500
+
+BU_: Vector__XXX
+
+BO_ 1904 MSG_770: 8 Vector__XXX
+ SG_ Engine_Speed : 8|16@1+ (0.25,0) [0|10000] "rpm" Vector__XXX
+ SG_ Throttle_Position : 24|8@1+ (0.47,0) [0|0] "%" Vector__XXX
+ SG_ Oil_Pressure : 32|8@1+ (6.27,0) [0|0] "kPa" Vector__XXX
+ SG_ Fuel_Pressure : 40|8@1+ (6.27,0) [0|0] "kPa" Vector__XXX
+
+BO_ 1905 MSG_771: 8 Vector__XXX
+ SG_ Wheel_Speed_1_kph : 8|16@1+ (0.78,0) [0|0] "km/h" Vector__XXX
+ SG_ Wheel_Speed_1_mph : 8|16@1+ (0.48438,0) [0|0] "mph" Vector__XXX
+

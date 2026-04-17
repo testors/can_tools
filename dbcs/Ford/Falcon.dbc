@@ -1,0 +1,39 @@
+VERSION ""
+
+NS_ :
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIGTYPE_VALTYPE_
+	SG_MUL_VAL_
+
+BS_: 500
+
+BU_: Vector__XXX
+
+BO_ 133 MSG_085: 8 Vector__XXX
+ SG_ Indicated_Lateral_Acceleration : 16|12@0+ (0.027127,-21.593) [-21.593|21.593] "g" Vector__XXX
+ SG_ Yaw_Rate : 48|12@0+ (0.0021326,-2.0943) [-2.0943|2.0943] "rad/s" Vector__XXX
+
+BO_ 144 MSG_090: 8 Vector__XXX
+ SG_ Brake_Pressure : 16|15@0+ (0.0153,-42.5) [-42.5|425] "bar" Vector__XXX
+
+BO_ 301 MSG_12D: 8 Vector__XXX
+ SG_ Brake_Position : 0|2@0+ (1,0) [0|3] "" Vector__XXX
+ SG_ Accelerator_Pedal_Position : 40|8@0+ (0.5,0) [0|108] "%" Vector__XXX
+

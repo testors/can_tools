@@ -1,0 +1,45 @@
+VERSION ""
+
+NS_ :
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIGTYPE_VALTYPE_
+	SG_MUL_VAL_
+
+BS_: 500
+
+BU_: Vector__XXX
+
+BO_ 497 MSG_1F1: 8 Vector__XXX
+ SG_ Engine_Speed : 0|16@1+ (1,0) [0|0] "rpm" Vector__XXX
+ SG_ Gear : 16|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Throttle_Position : 24|8@1+ (0.5,0) [0|0] "%" Vector__XXX
+ SG_ Brake_Pressure : 32|16@1- (0.01,0) [0|0] "bar" Vector__XXX
+ SG_ Steering_Angle : 48|16@1- (0.0625,0) [0|0] "��" Vector__XXX
+
+BO_ 498 MSG_1F2: 8 Vector__XXX
+ SG_ Indicated_Longitudinal_Acceleration : 0|16@1- (0.025,0) [0|0] "g" Vector__XXX
+ SG_ Indicated_Lateral_Acceleration : 16|16@1- (0.025,0) [0|0] "g" Vector__XXX
+ SG_ Indicated_Vertical_Acceleration : 32|16@1- (0.025,0) [0|0] "g" Vector__XXX
+ SG_ Yaw_Rate : 48|16@1- (0.01,0) [0|0] "��/s" Vector__XXX
+
+BO_ 499 MSG_1F3: 8 Vector__XXX
+ SG_ External_Lap_Number : 0|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ External_Lap_Time : 8|16@1+ (0.01,0) [0|0] "s" Vector__XXX
+

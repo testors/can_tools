@@ -1,0 +1,104 @@
+VERSION ""
+
+NS_ :
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIGTYPE_VALTYPE_
+	SG_MUL_VAL_
+
+BS_: 500
+
+BU_: Vector__XXX
+
+BO_ 864 MSG_360: 8 Vector__XXX
+ SG_ Coolant_Pressure : 0|16@0+ (0.1,-101.3) [0|0] "kPa" Vector__XXX
+ SG_ Throttle_Position : 16|16@0+ (0.1,0) [0|0] "%" Vector__XXX
+ SG_ Manifold_Pressure : 32|16@0+ (0.1,0) [0|0] "kPa" Vector__XXX
+ SG_ Engine_Speed : 48|16@0+ (1,0) [0|0] "rpm" Vector__XXX
+
+BO_ 865 MSG_361: 8 Vector__XXX
+ SG_ Boost_Pressure : 0|16@0+ (0.1,-101.3) [0|0] "kPa" Vector__XXX
+ SG_ Engine_Load : 16|16@0+ (0.1,0) [0|0] "%" Vector__XXX
+ SG_ Oil_Pressure : 32|16@0+ (0.1,-101.3) [0|0] "kPa" Vector__XXX
+ SG_ Fuel_Pressure : 48|16@0+ (0.1,-101.3) [0|0] "kPa" Vector__XXX
+
+BO_ 867 MSG_363: 8 Vector__XXX
+ SG_ Wheel_Speed_Difference_kph : 32|16@0- (0.1,0) [0|0] "km/h" Vector__XXX
+ SG_ Wheel_Speed_Difference_mph : 32|16@0- (0.0621,0) [0|0] "mph" Vector__XXX
+ SG_ Wheel_Slip_kph : 48|16@0- (0.1,0) [0|0] "km/h" Vector__XXX
+ SG_ Wheel_Slip_mph : 48|16@0- (0.0621,0) [0|0] "mph" Vector__XXX
+
+BO_ 875 MSG_36B: 8 Vector__XXX
+ SG_ Indicated_Lateral_Acceleration : 0|16@0- (0.1,0) [0|0] "m/s��" Vector__XXX
+ SG_ Turbo_Speed : 16|16@0+ (10,0) [0|0] "rpm" Vector__XXX
+ SG_ Brake_Pressure : 48|16@0+ (1,-101.3) [0|0] "kPa" Vector__XXX
+
+BO_ 876 MSG_36C: 8 Vector__XXX
+ SG_ Wheel_Speed_RR_kph : 0|16@0+ (0.1,0) [0|0] "km/h" Vector__XXX
+ SG_ Wheel_Speed_RR_mph : 0|16@0+ (0.0621,0) [0|0] "mph" Vector__XXX
+ SG_ Wheel_Speed_RL_kph : 16|16@0+ (0.1,0) [0|0] "km/h" Vector__XXX
+ SG_ Wheel_Speed_RL_mph : 16|16@0+ (0.0621,0) [0|0] "mph" Vector__XXX
+ SG_ Wheel_Speed_FR_kph : 32|16@0+ (0.1,0) [0|0] "km/h" Vector__XXX
+ SG_ Wheel_Speed_FR_mph : 32|16@0+ (0.0621,0) [0|0] "mph" Vector__XXX
+ SG_ Wheel_Speed_FL_kph : 48|16@0+ (0.1,0) [0|0] "km/h" Vector__XXX
+ SG_ Wheel_Speed_FL_mph : 48|16@0+ (0.0621,0) [0|0] "mph" Vector__XXX
+
+BO_ 878 MSG_36E: 8 Vector__XXX
+ SG_ Indicated_Longitudinal_Acceleration : 0|16@0- (0.1,0) [0|0] "m/s��" Vector__XXX
+
+BO_ 880 MSG_370: 8 Vector__XXX
+ SG_ Gear : 32|16@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Indicated_Vehicle_Speed_kph : 48|16@0+ (0.1,0) [0|0] "km/h" Vector__XXX
+ SG_ Indicated_Vehicle_Speed_mph : 48|16@0+ (0.0621,0) [0|0] "mph" Vector__XXX
+
+BO_ 881 MSG_371: 8 Vector__XXX
+ SG_ Fuel_Flow : 48|16@0+ (1,0) [0|0] "L" Vector__XXX
+
+BO_ 882 MSG_372: 8 Vector__XXX
+ SG_ Barometric_Pressure : 0|16@0+ (0.1,0) [0|0] "kPa" Vector__XXX
+ SG_ Boost_Pressure___Target : 16|16@0+ (0.1,0) [0|0] "kPa" Vector__XXX
+ SG_ Battery_Voltage : 48|16@0+ (0.1,0) [0|0] "V" Vector__XXX
+
+BO_ 992 MSG_3E0: 8 Vector__XXX
+ SG_ Oil_Temperature : 0|16@0+ (0.1,273) [0|0] "��C" Vector__XXX
+ SG_ Fuel_Temperature : 16|16@0+ (0.1,273) [0|0] "��C" Vector__XXX
+ SG_ Air_Temperature : 32|16@0+ (0.1,273) [0|0] "��C" Vector__XXX
+ SG_ Coolant_Temperature : 48|16@0+ (0.1,273) [0|0] "��C" Vector__XXX
+
+BO_ 993 MSG_3E1: 8 Vector__XXX
+ SG_ Fuel_Composition : 16|16@0+ (0.1,0) [0|0] "%" Vector__XXX
+ SG_ Differential_Oil_Temperature : 32|16@0+ (0.1,273) [0|0] "��C" Vector__XXX
+ SG_ Gearbox_Oil_Temperature : 48|16@0+ (0.1,273) [0|0] "��C" Vector__XXX
+
+BO_ 994 MSG_3E2: 8 Vector__XXX
+ SG_ Fuel_Level : 48|16@0+ (0.1,0) [0|0] "L" Vector__XXX
+
+BO_ 996 MSG_3E4: 8 Vector__XXX
+ SG_ Battery_Light : 6|1@0+ (1,0) [0|0] "on/off" Vector__XXX
+ SG_ Error_Flags : 7|1@0+ (1,0) [0|0] "on/off" Vector__XXX
+ SG_ RPM_Limiter : 45|1@0+ (1,0) [0|0] "on/off" Vector__XXX
+ SG_ Anti_Lag : 47|1@0+ (1,0) [0|0] "on/off" Vector__XXX
+ SG_ Clutch_Position : 49|1@0+ (1,0) [0|0] "on/off" Vector__XXX
+ SG_ Brake_Position : 50|1@0+ (1,0) [0|0] "on/off" Vector__XXX
+ SG_ Gear_Switch : 53|1@0+ (1,0) [0|0] "on/off" Vector__XXX
+
+BO_ 997 MSG_3E5: 8 Vector__XXX
+ SG_ Steering_Angle : 16|16@0- (0.1,0) [-3276.8|3276.7] "��" Vector__XXX
+ SG_ Ignition_On : 56|8@0+ (1,0) [0|0] "on/off" Vector__XXX
+

@@ -1,0 +1,49 @@
+VERSION ""
+
+NS_ :
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIGTYPE_VALTYPE_
+	SG_MUL_VAL_
+
+BS_: 500
+
+BU_: Vector__XXX
+
+BO_ 2147491840 MSG_80002000: 8 Vector__XXX
+ SG_ Engine_Speed : 0|16@1- (1,0) [0|20000] "rpm" Vector__XXX
+ SG_ Throttle_Position : 16|16@1- (1,0) [0|100] "%" Vector__XXX
+ SG_ Coolant_Temperature : 32|16@1- (1,0) [0|0] "��C" Vector__XXX
+ SG_ Air_Temperature : 48|16@1- (1,0) [0|0] "��C" Vector__XXX
+
+BO_ 2147491841 MSG_80002001: 8 Vector__XXX
+ SG_ Air_Fuel_Ratio : 16|16@1- (0.001,0) [0|0] "" Vector__XXX
+ SG_ Indicated_Vehicle_Speed_kph : 32|16@1- (0.1,0) [0|0] "km/h" Vector__XXX
+ SG_ Indicated_Vehicle_Speed_mph : 32|16@1- (0.0621,0) [0|0] "mph" Vector__XXX
+ SG_ Oil_Pressure : 48|16@1- (1,0) [0|0] "kPa" Vector__XXX
+
+BO_ 2147491842 MSG_80002002: 8 Vector__XXX
+ SG_ Fuel_Pressure : 0|16@1- (1,0) [0|0] "kPa" Vector__XXX
+ SG_ Oil_Temperature : 16|16@1- (1,0) [0|0] "��C" Vector__XXX
+ SG_ Battery_Voltage : 32|16@1- (0.1,0) [0|0] "V" Vector__XXX
+ SG_ Fuel_Consumption : 48|16@1- (0.1,0) [0|0] "L/h" Vector__XXX
+
+BO_ 2147491843 MSG_80002003: 8 Vector__XXX
+ SG_ Gear : 0|16@1- (1,0) [0|0] "" Vector__XXX
+

@@ -1,0 +1,80 @@
+VERSION ""
+
+NS_ :
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIGTYPE_VALTYPE_
+	SG_MUL_VAL_
+
+BS_: 500
+
+BU_: Vector__XXX
+
+BO_ 217 MSG_0D9: 8 Vector__XXX
+ SG_ Throttle_Position : 16|12@1+ (0.025,0) [0|100] "%" Vector__XXX
+
+BO_ 243 MSG_0F3: 8 Vector__XXX
+ SG_ Engine_Speed : 12|12@1+ (10,0) [0|10000] "rpm" Vector__XXX
+
+BO_ 371 MSG_173: 8 Vector__XXX
+ SG_ Brake_Light : 3|2@0+ (0.5,0) [0|1.5] "on/off" Vector__XXX
+ SG_ Brake_Position : 56|6@1+ (1,0) [0|71] "" Vector__XXX
+
+BO_ 409 MSG_199: 8 Vector__XXX
+ SG_ Indicated_Longitudinal_Acceleration : 16|16@1+ (0.002,-65) [-65|65] "m/s��" Vector__XXX
+
+BO_ 410 MSG_19A: 8 Vector__XXX
+ SG_ Indicated_Lateral_Acceleration : 16|16@1+ (0.002,-65) [-65|65] "m/s��" Vector__XXX
+
+BO_ 417 MSG_1A1: 8 Vector__XXX
+ SG_ Indicated_Vehicle_Speed_kph : 16|16@1+ (0.015625,0) [0|350] "km/h" Vector__XXX
+ SG_ Indicated_Vehicle_Speed_mph : 16|16@1+ (0.009703125,0) [0|217.35] "mph" Vector__XXX
+
+BO_ 442 MSG_1BA: 8 Vector__XXX
+ SG_ Battery_Current : 24|16@1+ (0.02,-200) [-200|1000] "" Vector__XXX
+
+BO_ 596 MSG_254: 8 Vector__XXX
+ SG_ Wheel_Speed_RL_kph : 0|15@1- (0.015625,0) [0|1000] "km/h" Vector__XXX
+ SG_ Wheel_Speed_RL_mph : 0|15@1- (0.009703125,0) [0|621] "mph" Vector__XXX
+ SG_ Wheel_Speed_RR_kph : 16|15@1- (0.015625,0) [0|1000] "km/h" Vector__XXX
+ SG_ Wheel_Speed_RR_mph : 16|15@1- (0.009703125,0) [0|621] "mph" Vector__XXX
+ SG_ Wheel_Speed_FL_kph : 32|15@1- (0.015625,0) [0|1000] "km/h" Vector__XXX
+ SG_ Wheel_Speed_FL_mph : 32|15@1- (0.009703125,0) [0|621] "mph" Vector__XXX
+ SG_ Wheel_Speed_FR_kph : 48|15@1- (0.015625,0) [0|1000] "km/h" Vector__XXX
+ SG_ Wheel_Speed_FR_mph : 48|15@1- (0.009703125,0) [0|621] "mph" Vector__XXX
+
+BO_ 641 MSG_281: 8 Vector__XXX
+ SG_ Battery_Voltage : 0|12@1+ (15,0) [0|60000] "mV" Vector__XXX
+
+BO_ 714 MSG_2CA: 8 Vector__XXX
+ SG_ Air_Temperature : 8|8@1+ (0.5,-40) [-40|85] "��C" Vector__XXX
+
+BO_ 769 MSG_301: 8 Vector__XXX
+ SG_ Steering_Angle : 16|16@1+ (0.04395,-1440.11) [-1440.11|1440.11] "��" Vector__XXX
+
+BO_ 922 MSG_39A: 8 Vector__XXX
+ SG_ Transmission_Oil_Temperature : 8|8@1+ (1,-48) [-40|170] "��C" Vector__XXX
+
+BO_ 1017 MSG_3F9: 8 Vector__XXX
+ SG_ Oil_Temperature : 40|8@1+ (1,-48) [-48|170] "��C" Vector__XXX
+ SG_ Gear : 48|4@1+ (1,-4) [0|11] "" Vector__XXX
+
+BO_ 1019 MSG_3FB: 8 Vector__XXX
+ SG_ Air_Pressure : 0|8@1+ (2,598) [600|1106] "mbar" Vector__XXX
+

@@ -1,0 +1,39 @@
+VERSION ""
+
+NS_ :
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIGTYPE_VALTYPE_
+	SG_MUL_VAL_
+
+BS_: 500
+
+BU_: Vector__XXX
+
+BO_ 1024 MSG_400: 8 Vector__XXX
+ SG_ Oil_Temperature : 0|8@0+ (1,0) [0|255] "��C" Vector__XXX
+ SG_ Oil_Pressure : 8|8@0+ (0.0493,-1.23) [0|11] "kPa" Vector__XXX
+ SG_ Air_Temperature : 24|8@0+ (1,0) [0|127] "��C" Vector__XXX
+ SG_ Coolant_Temperature : 32|8@0+ (1,-40) [0|215] "��C" Vector__XXX
+ SG_ Throttle_Position : 40|8@0+ (0.390625,0) [0|99.6] "%" Vector__XXX
+ SG_ Engine_Speed : 48|16@0+ (0.3,0) [0|9000] "rpm" Vector__XXX
+
+BO_ 1040 MSG_410: 8 Vector__XXX
+ SG_ Gear : 48|8@0+ (1,0) [0|255] "" Vector__XXX
+

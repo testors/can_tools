@@ -1,0 +1,64 @@
+VERSION ""
+
+NS_ :
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIGTYPE_VALTYPE_
+	SG_MUL_VAL_
+
+BS_: 500
+
+BU_: Vector__XXX
+
+BO_ 2418147392 MSG_90220040: 8 Vector__XXX
+ SG_ Yaw_Rate : 16|12@0- (0.0625,0) [-128|127.9375] "��/s" Vector__XXX
+
+BO_ 2418278464 MSG_90240040: 8 Vector__XXX
+ SG_ Steering_Angle : 16|16@0- (0.0625,0) [-2048|2047.9375] "��" Vector__XXX
+
+BO_ 2418311232 MSG_90248040: 5 Vector__XXX
+ SG_ Battery_Voltage : 40|8@0+ (0.1,3) [3|28.5] "V" Vector__XXX
+
+BO_ 2418344000 MSG_90250040: 2 Vector__XXX
+ SG_ Brake_Position : 48|8@0+ (0.392157,0) [0|100.000035] "%" Vector__XXX
+
+BO_ 2418843712 MSG_902CA040: 8 Vector__XXX
+ SG_ Accelerator_Pedal_Position : 16|8@0+ (0.392157,0) [0|100.000035] "%" Vector__XXX
+ SG_ Engine_Speed : 32|16@0+ (0.25,0) [0|10000] "rpm" Vector__XXX
+
+BO_ 2418933824 MSG_902E0040: 8 Vector__XXX
+ SG_ Coolant_Temperature : 0|8@0+ (1,-40) [-40|215] "��C" Vector__XXX
+ SG_ Air_Temperature : 57|1@0+ (1,0) [0|1] "" Vector__XXX
+
+BO_ 2419933248 MSG_903D4040: 6 Vector__XXX
+ SG_ Tyre_Pressure_RR : 16|8@0+ (4,0) [0|1020] "kPaG" Vector__XXX
+ SG_ Tyre_Pressure_FR : 24|8@0+ (4,0) [0|1020] "kPaG" Vector__XXX
+ SG_ Tyre_Pressure_RL : 32|8@0+ (4,0) [0|1020] "kPaG" Vector__XXX
+ SG_ Tyre_Pressure_FL : 40|8@0+ (4,0) [0|1020] "kPaG" Vector__XXX
+
+BO_ 2422964288 MSG_906B8040: 8 Vector__XXX
+ SG_ Wheel_Speed_RR_kph : 0|14@0+ (0.03125,0) [0|511.96875] "km/h" Vector__XXX
+ SG_ Wheel_Speed_RR_mph : 0|14@0+ (0.01940625,0) [0|317.93259375] "mph" Vector__XXX
+ SG_ Wheel_Speed_FR_kph : 16|14@0+ (0.03125,0) [0|511.96875] "km/h" Vector__XXX
+ SG_ Wheel_Speed_FR_mph : 16|14@0+ (0.01940625,0) [0|317.93259375] "mph" Vector__XXX
+ SG_ Wheel_Speed_RL_kph : 32|14@0+ (0.03125,0) [0|511.96875] "km/h" Vector__XXX
+ SG_ Wheel_Speed_RL_mph : 32|14@0+ (0.01940625,0) [0|317.93259375] "mph" Vector__XXX
+ SG_ Wheel_Speed_FL_kph : 48|14@0+ (0.03125,0) [0|511.96875] "km/h" Vector__XXX
+ SG_ Wheel_Speed_FL_mph : 48|14@0+ (0.01940625,0) [0|317.93259375] "mph" Vector__XXX
+

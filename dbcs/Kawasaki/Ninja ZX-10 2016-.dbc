@@ -1,0 +1,41 @@
+VERSION ""
+
+NS_ :
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIGTYPE_VALTYPE_
+	SG_MUL_VAL_
+
+BS_: 500
+
+BU_: Vector__XXX
+
+BO_ 256 MSG_100: 6 Vector__XXX
+ SG_ Engine_Speed : 48|16@0- (1,0) [0|32676] "rpm" Vector__XXX
+
+BO_ 992 MSG_3E0: 6 Vector__XXX
+ SG_ Wheel_Speed_Rear_kph : 32|16@0- (0.01220703125,0) [0|400] "km/h" Vector__XXX
+ SG_ Wheel_Speed_Rear_mph : 32|16@0- (0.00758056640625,0) [0|248.4] "mph" Vector__XXX
+ SG_ Wheel_Speed_Front_kph : 48|16@0- (0.01220703125,0) [0|400] "km/h" Vector__XXX
+ SG_ Wheel_Speed_Front_mph : 48|16@0- (0.00758056640625,0) [0|248.4] "mph" Vector__XXX
+
+BO_ 994 MSG_3E2: 8 Vector__XXX
+ SG_ Throttle_Position : 32|16@0- (0.12124,-11.74) [0|0] "%" Vector__XXX
+ SG_ Grip_Position : 48|16@0- (0.13679,-19) [0|0] "%" Vector__XXX
+

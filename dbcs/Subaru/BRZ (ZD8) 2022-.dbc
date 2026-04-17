@@ -1,0 +1,47 @@
+VERSION ""
+
+NS_ :
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIGTYPE_VALTYPE_
+	SG_MUL_VAL_
+
+BS_: 500
+
+BU_: Vector__XXX
+
+BO_ 64 MSG_040: 8 Vector__XXX
+ SG_ Engine_Speed : 16|15@1+ (1,0) [0|32767] "rpm" Vector__XXX
+ SG_ Accelerator_Pedal_Position : 24|8@0+ (0.3921,0) [0|99.9855] "%" Vector__XXX
+
+BO_ 312 MSG_138: 8 Vector__XXX
+ SG_ Steering_Angle : 16|16@1- (0.1,0) [-3276.8|3276.7] "��" Vector__XXX
+
+BO_ 313 MSG_139: 8 Vector__XXX
+ SG_ Brake_Position : 16|8@0+ (0.6,0) [0|153] "%" Vector__XXX
+
+BO_ 808 MSG_328: 8 Vector__XXX
+ SG_ Race_Mode : 38|1@0+ (1,0) [0|1] "on/off" Vector__XXX
+
+BO_ 940 MSG_3AC: 8 Vector__XXX
+ SG_ Side_Lights : 0|1@0+ (1,0) [0|1] "on/off" Vector__XXX
+ SG_ Headlights : 1|1@0+ (1,0) [0|1] "on/off" Vector__XXX
+ SG_ Full_Beam : 2|1@0+ (1,0) [0|1] "on/off" Vector__XXX
+ SG_ Handbrake : 13|1@0+ (1,0) [0|1] "on/off" Vector__XXX
+

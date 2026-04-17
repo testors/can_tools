@@ -1,0 +1,98 @@
+VERSION ""
+
+NS_ :
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIGTYPE_VALTYPE_
+	SG_MUL_VAL_
+
+BS_: 500
+
+BU_: Vector__XXX
+
+BO_ 16 MSG_010: 8 Vector__XXX
+ SG_ Engine_Speed : 16|16@0+ (1,0) [0|65535] "rpm" Vector__XXX
+ SG_ Throttle_Position_2 : 32|16@0+ (0.1,0) [0|0] "��" Vector__XXX
+ SG_ Throttle_Position : 48|16@0+ (0.1,0) [0|0] "��" Vector__XXX
+
+BO_ 17 MSG_011: 8 Vector__XXX
+ SG_ Air_Fuel_Ratio_2 : 0|8@0+ (0.005,0.5) [0|0] "" Vector__XXX
+ SG_ Air_Fuel_Ratio : 8|8@0+ (0.005,0.5) [0|0] "" Vector__XXX
+
+BO_ 20 MSG_014: 8 Vector__XXX
+ SG_ Accelerator_Pedal_Position : 0|16@0+ (0.1,0) [0|0] "%" Vector__XXX
+
+BO_ 112 MSG_070: 8 Vector__XXX
+ SG_ Steering_Angle : 0|16@0- (0.1,-3276.8) [0|0] "��" Vector__XXX
+ SG_ Indicated_Vehicle_Speed_kph : 16|16@0+ (0.06,0) [0|0] "km/h" Vector__XXX
+ SG_ Indicated_Vehicle_Speed_mph : 16|16@0+ (0.03726,0) [0|0] "mph" Vector__XXX
+ SG_ Brake_Pressure___Rear : 32|16@0+ (0.005,0) [0|0] "bar" Vector__XXX
+ SG_ Brake_Pressure____Front : 48|16@0+ (0.005,0) [0|0] "bar" Vector__XXX
+
+BO_ 113 MSG_071: 8 Vector__XXX
+ SG_ Wheel_Speed_RR_kph : 0|16@0+ (0.06,0) [0|400] "km/h" Vector__XXX
+ SG_ Wheel_Speed_RR_mph : 0|16@0+ (0.03726,0) [0|248.4] "mph" Vector__XXX
+ SG_ Wheel_Speed_RL_kph : 16|16@0+ (0.06,0) [0|400] "km/h" Vector__XXX
+ SG_ Wheel_Speed_RL_mph : 16|16@0+ (0.03726,0) [0|248.4] "mph" Vector__XXX
+ SG_ Wheel_Speed_FR_kph : 32|16@0+ (0.06,0) [0|400] "km/h" Vector__XXX
+ SG_ Wheel_Speed_FR_mph : 32|16@0+ (0.03726,0) [0|248.4] "mph" Vector__XXX
+ SG_ Wheel_Speed_FL_kph : 48|16@0+ (0.06,0) [0|400] "km/h" Vector__XXX
+ SG_ Wheel_Speed_FL_mph : 48|16@0+ (0.03726,0) [0|248.4] "mph" Vector__XXX
+
+BO_ 128 MSG_080: 8 Vector__XXX
+ SG_ Fuel_Pressure : 16|16@0+ (0.01,0) [0|0] "bar" Vector__XXX
+
+BO_ 129 MSG_081: 8 Vector__XXX
+ SG_ Damper_Travel_RR : 0|16@0- (0.01,0) [0|0] "" Vector__XXX
+ SG_ Damper_Travel_RL : 16|16@0- (0.01,0) [0|0] "" Vector__XXX
+ SG_ Damper_Travel_FR : 32|16@0- (0.01,0) [0|0] "" Vector__XXX
+ SG_ Damper_Travel_FL : 48|16@0- (0.01,0) [0|0] "" Vector__XXX
+
+BO_ 130 MSG_082: 8 Vector__XXX
+ SG_ Oil_Temperature : 48|8@0+ (1,-55) [0|0] "��C" Vector__XXX
+ SG_ Coolant_Temperature : 56|8@0+ (1,-55) [0|0] "��C" Vector__XXX
+
+BO_ 131 MSG_083: 8 Vector__XXX
+ SG_ Oil_Pressure : 8|8@0+ (0.05,0) [0|0] "bar" Vector__XXX
+ SG_ Battery_Voltage : 16|8@0+ (0.1,0) [0|0] "V" Vector__XXX
+
+BO_ 132 MSG_084: 8 Vector__XXX
+ SG_ Intake_Air_Temperature : 48|8@0+ (1,-55) [0|0] "��C" Vector__XXX
+ SG_ Intake_Air_Temperature_2 : 56|8@0+ (1,-55) [0|0] "��C" Vector__XXX
+
+BO_ 134 MSG_086: 8 Vector__XXX
+ SG_ Fuel_Temperature : 24|8@0+ (1,-55) [0|0] "��C" Vector__XXX
+
+BO_ 144 MSG_090: 8 Vector__XXX
+ SG_ Fuel_Consumption : 40|16@0+ (0.01,0) [0|0] "L" Vector__XXX
+ SG_ Air_Temperature : 56|8@0+ (1,-55) [0|0] "��C" Vector__XXX
+
+BO_ 145 MSG_091: 8 Vector__XXX
+ SG_ Gearbox_Oil_Temperature : 56|8@0+ (1,-55) [0|0] "��C" Vector__XXX
+
+BO_ 1782 MSG_6F6: 8 Vector__XXX
+ SG_ Tyre_Temperature_RR : 0|8@0+ (1,0) [0|255] "��C" Vector__XXX
+ SG_ Tyre_Pressure_RR : 8|8@0+ (0.0147,-0.118) [0|0] "bar" Vector__XXX
+ SG_ Tyre_Temperature_RL : 16|8@0+ (1,0) [0|255] "��C" Vector__XXX
+ SG_ Tyre_Pressure_RL : 24|8@0+ (0.0147,-0.118) [0|0] "bar" Vector__XXX
+ SG_ Tyre_Temperature_FR : 32|8@0+ (1,0) [0|255] "��C" Vector__XXX
+ SG_ Tyre_Pressure_FR : 40|8@0+ (0.0147,-0.118) [0|0] "bar" Vector__XXX
+ SG_ Tyre_Temperature_FL : 48|8@0+ (1,0) [0|255] "��C" Vector__XXX
+ SG_ Tyre_Pressure_FL : 56|8@0+ (0.0147,-0.118) [0|0] "bar" Vector__XXX
+

@@ -1,0 +1,80 @@
+VERSION ""
+
+NS_ :
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIGTYPE_VALTYPE_
+	SG_MUL_VAL_
+
+BS_: 500
+
+BU_: Vector__XXX
+
+BO_ 2148573190 MSG_8010A006: 8 Vector__XXX
+ SG_ Brake_Pressure : 40|10@0+ (3.6259,0) [0|2900] "psi" Vector__XXX
+
+BO_ 2150146054 MSG_8028A006: 8 Vector__XXX
+ SG_ Yaw_Rate : 28|12@0+ (0.08,-163.84) [-163.84|163.68] "��/s" Vector__XXX
+ SG_ Indicated_Lateral_Acceleration : 40|12@0+ (0.02,-40.96) [-40.96|40.92] "m/s��" Vector__XXX
+ SG_ Indicated_Longitudinal_Acceleration : 52|12@0+ (0.02,-40.96) [-40.96|40.92] "m/s��" Vector__XXX
+
+BO_ 2150801419 MSG_8032A00B: 8 Vector__XXX
+ SG_ Gear : 28|4@0+ (1,0) [0|15] "" Vector__XXX
+
+BO_ 2182651910 MSG_8218A006: 8 Vector__XXX
+ SG_ Wheel_Speed_RL_kph : 30|16@0+ (0.0078125,0) [0|512] "km/h" Vector__XXX
+ SG_ Wheel_Speed_RL_mph : 30|16@0+ (0.0048515625,0) [0|317.952] "mph" Vector__XXX
+ SG_ Wheel_Speed_RR_kph : 47|16@0+ (0.0078125,0) [0|512] "km/h" Vector__XXX
+ SG_ Wheel_Speed_RR_mph : 47|16@0+ (0.0048515625,0) [0|317.952] "mph" Vector__XXX
+
+BO_ 2249760769 MSG_8618A001: 8 Vector__XXX
+ SG_ Accelerator_Pedal_Position : 40|8@0+ (0.392,0) [0|99.96] "%" Vector__XXX
+
+BO_ 2250809345 MSG_8628A001: 8 Vector__XXX
+ SG_ Clutch_Position : 21|1@0+ (1,0) [0|1] "" Vector__XXX
+
+BO_ 2282791686 MSG_8810A306: 8 Vector__XXX
+ SG_ Wheel_Speed_FL_kph : 30|16@0+ (0.0078125,0) [0|512] "km/h" Vector__XXX
+ SG_ Wheel_Speed_FL_mph : 30|16@0+ (0.0048515625,0) [0|317.952] "mph" Vector__XXX
+ SG_ Wheel_Speed_FR_kph : 47|16@0+ (0.0078125,0) [0|512] "km/h" Vector__XXX
+ SG_ Wheel_Speed_FR_mph : 47|16@0+ (0.0048515625,0) [0|317.952] "mph" Vector__XXX
+
+BO_ 2316869632 MSG_8A18A000: 8 Vector__XXX
+ SG_ Handbrake : 13|1@0+ (1,0) [0|1] "on/off" Vector__XXX
+ SG_ Air_Temperature : 32|8@0+ (0.5,-40) [-39.5|87.5] "��C" Vector__XXX
+
+BO_ 2316869633 MSG_8A18A001: 8 Vector__XXX
+ SG_ Engine_Speed : 8|8@0+ (32,0) [0|8000] "rpm" Vector__XXX
+ SG_ Fuel_Consumption : 16|16@0+ (0.0022,0) [0|132] "L/h" Vector__XXX
+ SG_ Coolant_Temperature : 32|8@0+ (1,-40) [-40|214] "��C" Vector__XXX
+
+BO_ 2316869638 MSG_8A18A006: 8 Vector__XXX
+ SG_ Indicated_Vehicle_Speed_kph : 32|13@0+ (0.0625,0) [0|512] "km/h" Vector__XXX
+ SG_ Indicated_Vehicle_Speed_mph : 32|13@0+ (0.0388125,0) [0|317.952] "mph" Vector__XXX
+
+BO_ 2317131777 MSG_8A1CA001: 8 Vector__XXX
+ SG_ Boost_Pressure : 40|8@0+ (15,0) [0|3825] "mbar" Vector__XXX
+ SG_ Oil_Temperature : 48|3@0+ (1,0) [0|6] "" Vector__XXX
+
+BO_ 2317918208 MSG_8A28A000: 8 Vector__XXX
+ SG_ Odometer_Reading : 12|20@0+ (1,0) [0|999999] "" Vector__XXX
+
+BO_ 2350694400 MSG_8C1CC000: 8 Vector__XXX
+ SG_ Battery_Voltage : 57|7@0+ (0.16,0) [0|18] "V" Vector__XXX
+

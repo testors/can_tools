@@ -1,0 +1,53 @@
+VERSION ""
+
+NS_ :
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIGTYPE_VALTYPE_
+	SG_MUL_VAL_
+
+BS_: 500
+
+BU_: Vector__XXX
+
+BO_ 512 MSG_200: 8 Vector__XXX
+ SG_ Accelerator_Pedal_Position : 40|8@0+ (1,0) [0|0] "%" Vector__XXX
+ SG_ Engine_Speed : 48|16@0+ (5,0) [0|0] "rpm" Vector__XXX
+
+BO_ 516 MSG_204: 8 Vector__XXX
+ SG_ Gear : 56|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 520 MSG_208: 8 Vector__XXX
+ SG_ Steering_Angle : 48|16@0+ (0.5,-780) [0|0] "��" Vector__XXX
+
+BO_ 524 MSG_20C: 8 Vector__XXX
+ SG_ Indicated_Vehicle_Speed_kph : 32|16@0+ (0.1,0) [0|0] "km/h" Vector__XXX
+ SG_ Indicated_Vehicle_Speed_mph : 32|16@0+ (0.0621,0) [0|0] "mph" Vector__XXX
+ SG_ Brake_Pressure : 48|16@0+ (1,0) [0|0] "bar" Vector__XXX
+
+BO_ 528 MSG_210: 8 Vector__XXX
+ SG_ Indicated_Longitudinal_Acceleration : 32|16@0+ (0.1,-40.9) [0|0] "g" Vector__XXX
+ SG_ Indicated_Lateral_Acceleration : 48|16@0+ (0.1,-40.9) [0|0] "g" Vector__XXX
+
+BO_ 536 MSG_218: 8 Vector__XXX
+ SG_ External_Lap_Time : 16|24@0+ (1,0) [0|0] "ms" Vector__XXX
+ SG_ ABS_Switch_Position : 40|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Traction_Control_Switch_2_Position : 48|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Traction_Control_Switch_1_Position : 56|8@0+ (1,0) [0|0] "" Vector__XXX
+

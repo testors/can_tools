@@ -1,0 +1,38 @@
+VERSION ""
+
+NS_ :
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIGTYPE_VALTYPE_
+	SG_MUL_VAL_
+
+BS_: 500
+
+BU_: Vector__XXX
+
+BO_ 245 MSG_0F5: 8 Vector__XXX
+ SG_ Engine_Speed : 0|13@0+ (1,0) [0|8000] "rpm" Vector__XXX
+
+BO_ 805 MSG_325: 8 Vector__XXX
+ SG_ Indicated_Vehicle_Speed_kph : 16|15@0+ (0.010304,0) [0|322] "km/h" Vector__XXX
+ SG_ Indicated_Vehicle_Speed_mph : 16|15@0+ (0.0064,0) [0|200] "mph" Vector__XXX
+
+BO_ 928 MSG_3A0: 8 Vector__XXX
+ SG_ Handbrake : 12|1@0+ (1,0) [0|1] "on/off" Vector__XXX
+

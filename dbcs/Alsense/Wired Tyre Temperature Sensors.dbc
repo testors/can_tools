@@ -1,0 +1,124 @@
+VERSION ""
+
+NS_ :
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIGTYPE_VALTYPE_
+	SG_MUL_VAL_
+
+BS_: 500
+
+BU_: Vector__XXX
+
+BO_ 784 MSG_310: 8 Vector__XXX
+ SG_ Tyre_Temperature_FL_04 : 0|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_FL_03 : 16|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_FL_02 : 32|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_FL_01 : 48|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+
+BO_ 785 MSG_311: 8 Vector__XXX
+ SG_ Tyre_Temperature_FL_08 : 0|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_FL_07 : 16|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_FL_06 : 32|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_FL_05 : 48|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+
+BO_ 786 MSG_312: 8 Vector__XXX
+ SG_ Tyre_Temperature_FL_12 : 0|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_FL_11 : 16|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_FL_10 : 32|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_FL_09 : 48|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+
+BO_ 787 MSG_313: 8 Vector__XXX
+ SG_ Tyre_Temperature_FL_16 : 0|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_FL_15 : 16|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_FL_14 : 32|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_FL_13 : 48|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+
+BO_ 816 MSG_330: 8 Vector__XXX
+ SG_ Tyre_Temperature_FR_04 : 0|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_FR_03 : 16|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_FR_02 : 32|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_FR_01 : 48|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+
+BO_ 817 MSG_331: 8 Vector__XXX
+ SG_ Tyre_Temperature_FR_08 : 0|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_FR_07 : 16|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_FR_06 : 32|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_FR_05 : 48|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+
+BO_ 818 MSG_332: 8 Vector__XXX
+ SG_ Tyre_Temperature_FR_12 : 0|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_FR_11 : 16|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_FR_10 : 32|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_FR_09 : 48|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+
+BO_ 819 MSG_333: 8 Vector__XXX
+ SG_ Tyre_Temperature_FR_16 : 0|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_FR_15 : 16|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_FR_14 : 32|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_FR_13 : 48|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+
+BO_ 848 MSG_350: 8 Vector__XXX
+ SG_ Tyre_Temperature_RL_04 : 0|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_RL_03 : 16|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_RL_02 : 32|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_RL_01 : 48|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+
+BO_ 849 MSG_351: 8 Vector__XXX
+ SG_ Tyre_Temperature_RL_08 : 0|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_RL_07 : 16|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_RL_06 : 32|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_RL_05 : 48|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+
+BO_ 850 MSG_352: 8 Vector__XXX
+ SG_ Tyre_Temperature_RL_12 : 0|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_RL_11 : 16|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_RL_10 : 32|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_RL_09 : 48|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+
+BO_ 851 MSG_353: 8 Vector__XXX
+ SG_ Tyre_Temperature_RL_16 : 0|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_RL_15 : 16|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_RL_14 : 32|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_RL_13 : 48|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+
+BO_ 880 MSG_370: 8 Vector__XXX
+ SG_ Tyre_Temperature_RR_04 : 0|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_RR_03 : 16|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_RR_02 : 32|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_RR_01 : 48|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+
+BO_ 881 MSG_371: 8 Vector__XXX
+ SG_ Tyre_Temperature_RR_08 : 0|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_RR_07 : 16|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_RR_06 : 32|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_RR_05 : 48|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+
+BO_ 882 MSG_372: 8 Vector__XXX
+ SG_ Tyre_Temperature_RR_12 : 0|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_RR_11 : 16|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_RR_10 : 32|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_RR_09 : 48|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+
+BO_ 883 MSG_373: 8 Vector__XXX
+ SG_ Tyre_Temperature_RR_16 : 0|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_RR_15 : 16|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_RR_14 : 32|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+ SG_ Tyre_Temperature_RR_13 : 48|16@0- (0.1,-200) [-3476.8|3076.7] "��C" Vector__XXX
+

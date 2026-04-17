@@ -1,0 +1,37 @@
+VERSION ""
+
+NS_ :
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIGTYPE_VALTYPE_
+	SG_MUL_VAL_
+
+BS_: 500
+
+BU_: Vector__XXX
+
+BO_ 561 MSG_231: 8 Vector__XXX
+ SG_ Throttle_Position : 16|8@1+ (0.5,0) [0|0] "" Vector__XXX
+
+BO_ 573 MSG_23D: 8 Vector__XXX
+ SG_ Engine_Speed : 24|16@1+ (3.35,0) [0|10000] "rpm" Vector__XXX
+
+BO_ 2147483648 MSG_80000000: 8 Vector__XXX
+ SG_ Brake_Position : 0|8@1+ (1,0) [0|0] "" Vector__XXX
+

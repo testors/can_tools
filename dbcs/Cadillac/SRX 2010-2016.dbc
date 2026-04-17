@@ -1,0 +1,129 @@
+VERSION ""
+
+NS_ :
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIGTYPE_VALTYPE_
+	SG_MUL_VAL_
+
+BS_: 500
+
+BU_: Vector__XXX
+
+BO_ 201 MSG_0C9: 8 Vector__XXX
+ SG_ Boost_Pressure : 0|8@0- (1,0) [-128|127] "kPaG" Vector__XXX
+ SG_ Accelerator_Pedal_Position : 24|8@0+ (0.392157,0) [0|100.000035] "%" Vector__XXX
+ SG_ Engine_Speed : 40|16@0+ (0.25,0) [0|16383.75] "rpm" Vector__XXX
+
+BO_ 241 MSG_0F1: 6 Vector__XXX
+ SG_ Brake_Position : 48|8@0+ (0.392157,0) [0|100.000035] "%" Vector__XXX
+
+BO_ 288 MSG_120: 5 Vector__XXX
+ SG_ Odometer_Reading : 32|32@0+ (0.015625,0) [0|67108863.9844] "km" Vector__XXX
+
+BO_ 298 MSG_12A: 8 Vector__XXX
+ SG_ Seat_Belt___Passenger : 13|1@0+ (1,0) [0|1] "on/off" Vector__XXX
+ SG_ Battery_Voltage : 32|8@0+ (0.1,3) [3|28.5] "V" Vector__XXX
+ SG_ Door_Open___Front_Left : 49|1@0+ (1,0) [0|1] "on/off" Vector__XXX
+ SG_ Door_Open___Front_Right : 50|1@0+ (1,0) [0|1] "on/off" Vector__XXX
+ SG_ Seat_Belt___Driver : 52|1@0+ (1,0) [0|1] "on/off" Vector__XXX
+
+BO_ 309 MSG_135: 8 Vector__XXX
+ SG_ Wiper_Trigger : 62|1@0+ (1,0) [0|0] "on/off" Vector__XXX
+
+BO_ 320 MSG_140: 3 Vector__XXX
+ SG_ Side_Lights : 51|2@0+ (1,0) [0|3] "on/off" Vector__XXX
+ SG_ Headlights : 57|1@0+ (1,0) [0|0] "on/off" Vector__XXX
+ SG_ Brake_Light : 62|1@0+ (1,0) [0|1] "on/off" Vector__XXX
+ SG_ Full_Beam : 63|1@0+ (1,0) [0|0] "on/off" Vector__XXX
+
+BO_ 485 MSG_1E5: 8 Vector__XXX
+ SG_ Steering_Rate : 24|12@0- (1,0) [-2048|2047] "��/s" Vector__XXX
+ SG_ Steering_Angle : 40|16@0- (0.0625,0) [-2048|2047.9375] "��" Vector__XXX
+
+BO_ 489 MSG_1E9: 8 Vector__XXX
+ SG_ Yaw_Rate : 16|12@0- (0.0625,0) [-128|127.9375] "��/s" Vector__XXX
+ SG_ ABS_Intervention : 38|1@0+ (1,0) [0|0] "on/off" Vector__XXX
+
+BO_ 501 MSG_1F5: 8 Vector__XXX
+ SG_ Gear_Switch : 32|4@0+ (1,0) [0|15] "" Vector__XXX
+ SG_ Gear : 56|4@0+ (1,0) [0|15] "" Vector__XXX
+
+BO_ 508 MSG_1FC: 8 Vector__XXX
+ SG_ Indicated_Lateral_Acceleration : 32|16@0- (0.00012207,0) [-3.99998976|3.99986769] "g" Vector__XXX
+ SG_ Indicated_Longitudinal_Acceleration : 48|16@0- (0.00012207,0) [-3.99998976|3.99986769] "g" Vector__XXX
+
+BO_ 564 MSG_234: 4 Vector__XXX
+ SG_ Traction_Control_Mode : 54|2@0+ (1,0) [0|3] "" Vector__XXX
+
+BO_ 761 MSG_2F9: 7 Vector__XXX
+ SG_ Brake_Pressure : 16|8@0+ (75,0) [0|19125] "kPa" Vector__XXX
+
+BO_ 801 MSG_321: 8 Vector__XXX
+ SG_ Ride_Height_RR : 5|9@0- (1,0) [-256|255] "mm" Vector__XXX
+ SG_ Ride_Height_RL : 14|9@0- (1,0) [-256|255] "mm" Vector__XXX
+ SG_ Ride_Height_FR : 23|9@0- (1,0) [-256|255] "mm" Vector__XXX
+ SG_ Ride_Height_FL : 32|9@0- (1,0) [-256|255] "mm" Vector__XXX
+
+BO_ 840 MSG_348: 5 Vector__XXX
+ SG_ Wheel_Speed_FR_kph : 32|14@0+ (0.03125,0) [0|511.96875] "km/h" Vector__XXX
+ SG_ Wheel_Speed_FR_mph : 32|14@0+ (0.01940625,0) [0|317.93259375] "mph" Vector__XXX
+ SG_ Wheel_Speed_FL_kph : 48|14@0+ (0.03125,0) [0|511.96875] "km/h" Vector__XXX
+ SG_ Wheel_Speed_FL_mph : 48|14@0+ (0.01940625,0) [0|317.93259375] "mph" Vector__XXX
+
+BO_ 842 MSG_34A: 5 Vector__XXX
+ SG_ Wheel_Speed_RR_kph : 32|14@0+ (0.03125,0) [0|511.96875] "km/h" Vector__XXX
+ SG_ Wheel_Speed_RR_mph : 32|14@0+ (0.01940625,0) [0|317.93259375] "mph" Vector__XXX
+ SG_ Wheel_Speed_RL_kph : 48|14@0+ (0.03125,0) [0|511.96875] "km/h" Vector__XXX
+ SG_ Wheel_Speed_RL_mph : 48|14@0+ (0.01940625,0) [0|317.93259375] "mph" Vector__XXX
+
+BO_ 880 MSG_370: 6 Vector__XXX
+ SG_ Cruise_Control_Set_Speed_kph : 32|12@0+ (0.0625,0) [0|255.9375] "km/h" Vector__XXX
+ SG_ Cruise_Control_Set_Speed_mph : 32|12@0+ (0.0388125,0) [0|158.9371875] "mph" Vector__XXX
+ SG_ ACC_Distance : 44|3@0+ (1,0) [0|7] "" Vector__XXX
+
+BO_ 977 MSG_3D1: 8 Vector__XXX
+ SG_ Throttle_Position : 48|8@0+ (0.392157,0) [0|100.000035] "%" Vector__XXX
+
+BO_ 1001 MSG_3E9: 8 Vector__XXX
+ SG_ Indicated_Vehicle_Speed_kph : 16|15@0+ (0.015625,0) [0|511.984375] "km/h" Vector__XXX
+ SG_ Indicated_Vehicle_Speed_mph : 16|15@0+ (0.009703125,0) [0|317.942296875] "mph" Vector__XXX
+
+BO_ 1009 MSG_3F1: 8 Vector__XXX
+ SG_ Air_Temperature : 0|8@0+ (0.5,-40) [-40|87.5] "��C" Vector__XXX
+
+BO_ 1217 MSG_4C1: 8 Vector__XXX
+ SG_ Intake_Air_Temperature : 32|8@0+ (1,-40) [-40|215] "��C" Vector__XXX
+ SG_ Coolant_Temperature : 40|8@0+ (1,-40) [-40|215] "��C" Vector__XXX
+ SG_ Air_Pressure : 48|8@0+ (0.5,0) [0|127.5] "kPa" Vector__XXX
+
+BO_ 1225 MSG_4C9: 7 Vector__XXX
+ SG_ Transmission_Oil_Temperature : 48|8@0+ (1,-40) [-40|215] "��C" Vector__XXX
+
+BO_ 1233 MSG_4D1: 8 Vector__XXX
+ SG_ Fuel_Level : 16|8@0+ (0.392157,0) [0|100.000035] "%" Vector__XXX
+ SG_ Oil_Pressure : 40|8@0+ (4,0) [0|1020] "kPa" Vector__XXX
+ SG_ Oil_Temperature : 48|8@0+ (1,-40) [-40|215] "��C" Vector__XXX
+
+BO_ 1322 MSG_52A: 6 Vector__XXX
+ SG_ Tyre_Pressure_RR : 16|8@0+ (4,0) [0|1020] "kPaG" Vector__XXX
+ SG_ Tyre_Pressure_FR : 24|8@0+ (4,0) [0|1020] "kPaG" Vector__XXX
+ SG_ Tyre_Pressure_RL : 32|8@0+ (4,0) [0|1020] "kPaG" Vector__XXX
+ SG_ Tyre_Pressure_FL : 40|8@0+ (4,0) [0|1020] "kPaG" Vector__XXX
+

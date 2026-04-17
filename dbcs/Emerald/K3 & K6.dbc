@@ -1,0 +1,71 @@
+VERSION ""
+
+NS_ :
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIGTYPE_VALTYPE_
+	SG_MUL_VAL_
+
+BS_: 500
+
+BU_: Vector__XXX
+
+BO_ 2147487744 MSG_80001000: 8 Vector__XXX
+ SG_ Coil_on_Time : 0|8@0+ (0.0488,0) [0|12.444] "ms" Vector__XXX
+ SG_ Throttle_Position : 8|8@0+ (1,0) [0|100] "%" Vector__XXX
+ SG_ Air_Pressure : 16|16@0+ (0.1,0) [0|6553.5] "kPa" Vector__XXX
+ SG_ Manifold_Pressure : 32|16@0+ (0.1,0) [0|6553.5] "kPa" Vector__XXX
+ SG_ Engine_Speed : 48|16@0+ (1,0) [0|65535] "rpm" Vector__XXX
+
+BO_ 2147487745 MSG_80001001: 8 Vector__XXX
+ SG_ Air_Fuel_Ratio_2 : 0|16@0+ (0.1,0) [0|0] "" Vector__XXX
+ SG_ Air_Fuel_Ratio : 16|16@0+ (0.1,0) [0|0] "" Vector__XXX
+ SG_ Indicated_Vehicle_Speed_kph : 32|16@0+ (0.0141503866,0) [0|927.36] "km/h" Vector__XXX
+ SG_ Indicated_Vehicle_Speed_mph : 32|16@0+ (0.00878906,0) [0|576] "mph" Vector__XXX
+ SG_ Exhaust_Temperature : 48|16@0+ (1,0) [0|65535] "��C" Vector__XXX
+
+BO_ 2147487746 MSG_80001002: 8 Vector__XXX
+ SG_ Error_Flags : 32|16@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Status_Flags : 48|16@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487747 MSG_80001003: 8 Vector__XXX
+ SG_ Battery_Voltage : 0|8@0+ (0.0909091,0) [0|23.18] "V" Vector__XXX
+ SG_ Selected_Map : 8|8@0+ (1,1) [0|0] "" Vector__XXX
+ SG_ Gear : 16|8@0+ (1,1) [0|0] "" Vector__XXX
+ SG_ Injector_Duration : 24|8@0+ (1,0) [0|255] "%" Vector__XXX
+ SG_ Ignition_Advance : 32|8@0+ (0.5,0) [0|127.5] "��" Vector__XXX
+ SG_ Aux_Temperature : 40|8@0+ (1,-40) [0|215] "��C" Vector__XXX
+ SG_ Coolant_Temperature : 48|8@0+ (1,-40) [0|215] "��C" Vector__XXX
+ SG_ Air_Temperature : 56|8@0+ (1,-40) [0|215] "��C" Vector__XXX
+
+BO_ 2147487748 MSG_80001004: 8 Vector__XXX
+ SG_ Boost_Pressure___Target : 0|16@0+ (0.1,0) [0|6553.5] "kPa" Vector__XXX
+ SG_ Oil_Pressure : 32|16@0+ (1,0) [0|65535] "kPa" Vector__XXX
+ SG_ Fuel_Pressure : 48|16@0+ (1,0) [0|65535] "kPa" Vector__XXX
+
+BO_ 2147487749 MSG_80001005: 8 Vector__XXX
+ SG_ Wheel_Speed_RR_kph : 0|16@0+ (0.0141503866,0) [0|927.36] "km/h" Vector__XXX
+ SG_ Wheel_Speed_RR_mph : 0|16@0+ (0.00878906,0) [0|576] "mph" Vector__XXX
+ SG_ Wheel_Speed_RL_kph : 16|16@0+ (0.0141503866,0) [0|927.36] "km/h" Vector__XXX
+ SG_ Wheel_Speed_RL_mph : 16|16@0+ (0.00878906,0) [0|576] "mph" Vector__XXX
+ SG_ Wheel_Speed_FR_kph : 32|16@0+ (0.0141503866,0) [0|927.36] "km/h" Vector__XXX
+ SG_ Wheel_Speed_FR_mph : 32|16@0+ (0.00878906,0) [0|576] "mph" Vector__XXX
+ SG_ Wheel_Speed_FL_kph : 48|16@0+ (0.0141503866,0) [0|927.36] "km/h" Vector__XXX
+ SG_ Wheel_Speed_FL_mph : 48|16@0+ (0.00878906,0) [0|576] "mph" Vector__XXX
+

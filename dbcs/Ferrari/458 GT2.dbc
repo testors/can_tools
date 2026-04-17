@@ -1,0 +1,69 @@
+VERSION ""
+
+NS_ :
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIGTYPE_VALTYPE_
+	SG_MUL_VAL_
+
+BS_: 500
+
+BU_: Vector__XXX
+
+BO_ 256 MSG_100: 8 Vector__XXX
+ SG_ Wheel_Speed_FL_kph : 0|16@1+ (0.1,0) [0|6553.5] "km/h" Vector__XXX
+ SG_ Wheel_Speed_FL_mph : 0|16@1+ (0.0621,0) [0|4069.7235] "mph" Vector__XXX
+ SG_ Wheel_Speed_FR_kph : 16|16@1+ (0.1,0) [0|6553.5] "km/h" Vector__XXX
+ SG_ Wheel_Speed_FR_mph : 16|16@1+ (0.0621,0) [0|4069.7235] "mph" Vector__XXX
+ SG_ Wheel_Speed_RL_kph : 32|16@1+ (0.1,0) [0|6553.5] "km/h" Vector__XXX
+ SG_ Wheel_Speed_RL_mph : 32|16@1+ (0.0621,0) [0|4069.7235] "mph" Vector__XXX
+ SG_ Wheel_Speed_RR_kph : 48|16@1+ (0.1,0) [0|6553.5] "km/h" Vector__XXX
+ SG_ Wheel_Speed_RR_mph : 48|16@1+ (0.0621,0) [0|4069.7235] "mph" Vector__XXX
+
+BO_ 272 MSG_110: 8 Vector__XXX
+ SG_ Oil_Temperature : 0|8@1+ (1,-40) [-40|215] "��C" Vector__XXX
+ SG_ Gearbox_Oil_Temperature : 8|8@1+ (1,-40) [-40|215] "��C" Vector__XXX
+ SG_ Cockpit_Temperature : 16|8@1+ (1,-40) [-40|215] "��C" Vector__XXX
+ SG_ Oil_Pressure : 24|8@1+ (0.05,0) [0|12.75] "bar" Vector__XXX
+ SG_ Engine_Mode : 32|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Traction_Control_Mode : 40|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Fuel_Pressure : 48|8@1+ (1,0.05) [0.05|255.05] "bar" Vector__XXX
+ SG_ Battery_Voltage : 56|8@1+ (0.1,0) [0|25.5] "V" Vector__XXX
+
+BO_ 293 MSG_125: 8 Vector__XXX
+ SG_ ABS_Switch_Position : 40|8@1+ (1,0) [0|255] "" Vector__XXX
+
+BO_ 304 MSG_130: 8 Vector__XXX
+ SG_ Fuel_Consumption : 32|32@1+ (0.01,0) [0|42949672.95] "L" Vector__XXX
+
+BO_ 320 MSG_140: 8 Vector__XXX
+ SG_ Steering_Angle : 0|16@1- (0.1,0) [-3276.8|3276.7] "��" Vector__XXX
+
+BO_ 1280 MSG_500: 8 Vector__XXX
+ SG_ Engine_Speed : 0|16@1+ (1,0) [0|65535] "rpm" Vector__XXX
+ SG_ Indicated_Vehicle_Speed_kph : 16|16@1+ (0.1,0) [0|6553.5] "km/h" Vector__XXX
+ SG_ Indicated_Vehicle_Speed_mph : 16|16@1+ (0.0621,0) [0|4069.7235] "mph" Vector__XXX
+ SG_ Gear : 32|8@1+ (1,0) [0|6] "" Vector__XXX
+ SG_ Throttle_Position : 40|16@1+ (0.01,0) [0|100] "%" Vector__XXX
+
+BO_ 1296 MSG_510: 8 Vector__XXX
+ SG_ Coolant_Temperature : 0|8@1+ (1,-40) [-40|215] "��C" Vector__XXX
+ SG_ Brake_Pressure____Front : 16|16@1+ (0.01,0) [0|655.35] "bar" Vector__XXX
+ SG_ Brake_Pressure___Rear : 32|16@1+ (0.01,0) [0|655.35] "bar" Vector__XXX
+

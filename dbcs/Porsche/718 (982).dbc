@@ -1,0 +1,77 @@
+VERSION ""
+
+NS_ :
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIGTYPE_VALTYPE_
+	SG_MUL_VAL_
+
+BS_: 500
+
+BU_: Vector__XXX
+
+BO_ 129 MSG_081: 8 Vector__XXX
+ SG_ Gear : 49|4@1+ (1,0) [0|15] "" Vector__XXX
+
+BO_ 134 MSG_086: 8 Vector__XXX
+ SG_ Steering_Angle : 8|10@0+ (-0.8,817.6) [-638.75|638.75] "��" Vector__XXX
+ SG_ Steering_Direction : 18|1@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 256 MSG_100: 8 Vector__XXX
+ SG_ Indicated_Vehicle_Speed_kph : 32|16@1+ (0.01,0) [0|655.32] "km/h" Vector__XXX
+ SG_ Indicated_Vehicle_Speed_mph : 32|16@1+ (0.00621,0) [0|406.95372] "mph" Vector__XXX
+
+BO_ 257 MSG_101: 8 Vector__XXX
+ SG_ Indicated_Lateral_Acceleration : 16|8@1+ (0.01,-1.27) [-1.27|1.27] "g" Vector__XXX
+ SG_ Indicated_Longitudinal_Acceleration : 24|10@1+ (0.03125,-16) [-16|15.90625] "m/s��" Vector__XXX
+ SG_ Yaw_Rate : 40|14@1+ (0.01,0) [0|163.82] "��/s" Vector__XXX
+
+BO_ 259 MSG_103: 8 Vector__XXX
+ SG_ Wheel_Speed_RL_kph : 16|12@1+ (0.1,0) [0|400] "km/h" Vector__XXX
+ SG_ Wheel_Speed_RL_mph : 16|12@1+ (0.0621,0) [0|248.4] "mph" Vector__XXX
+ SG_ Wheel_Speed_FL_kph : 28|12@1+ (0.1,0) [0|500] "km/h" Vector__XXX
+ SG_ Wheel_Speed_FL_mph : 28|12@1+ (0.0621,0) [0|310.5] "mph" Vector__XXX
+ SG_ Wheel_Speed_RR_kph : 40|12@1+ (0.1,0) [0|400] "km/h" Vector__XXX
+ SG_ Wheel_Speed_RR_mph : 40|12@1+ (0.0621,0) [0|248.4] "mph" Vector__XXX
+ SG_ Wheel_Speed_FR_kph : 52|12@1+ (0.1,0) [0|400] "km/h" Vector__XXX
+ SG_ Wheel_Speed_FR_mph : 52|12@1+ (0.0621,0) [0|248.4] "mph" Vector__XXX
+
+BO_ 260 MSG_104: 8 Vector__XXX
+ SG_ Clutch_Position : 32|8@1+ (0.4,0) [8|92] "%" Vector__XXX
+
+BO_ 261 MSG_105: 8 Vector__XXX
+ SG_ Engine_Speed : 16|16@1+ (0.25,0) [0|16383] "rpm" Vector__XXX
+ SG_ Accelerator_Pedal_Position : 48|8@1+ (0.4,0) [0|101.6] "%" Vector__XXX
+
+BO_ 262 MSG_106: 8 Vector__XXX
+ SG_ Brake_Pressure : 16|10@1+ (0.3,-30) [-30|276.6] "bar" Vector__XXX
+
+BO_ 263 MSG_107: 8 Vector__XXX
+ SG_ Oil_Pressure : 16|8@1+ (0.04,0) [0|10] "bar" Vector__XXX
+ SG_ Boost_Pressure : 39|9@1+ (0.01,0) [0|5.1] "bar" Vector__XXX
+
+BO_ 1600 MSG_640: 8 Vector__XXX
+ SG_ Intake_Air_Temperature : 8|8@1+ (0.75,-48) [-48|141.75] "��C" Vector__XXX
+ SG_ Oil_Temperature : 16|8@1+ (1,-60) [-60|192] "��C" Vector__XXX
+ SG_ Coolant_Temperature : 24|8@1+ (0.75,-48) [-48|141.75] "��C" Vector__XXX
+
+BO_ 1719 MSG_6B7: 8 Vector__XXX
+ SG_ Odometer_Reading : 0|20@1+ (1,0) [0|1048573] "km" Vector__XXX
+ SG_ Air_Temperature : 56|8@1+ (0.5,-50) [-50|75] "��C" Vector__XXX
+

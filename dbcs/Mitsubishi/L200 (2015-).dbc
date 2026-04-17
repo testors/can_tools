@@ -1,0 +1,66 @@
+VERSION ""
+
+NS_ :
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIGTYPE_VALTYPE_
+	SG_MUL_VAL_
+
+BS_: 500
+
+BU_: Vector__XXX
+
+BO_ 512 MSG_200: 8 Vector__XXX
+ SG_ Wheel_Speed_FR_kph : 16|14@0+ (0.0625,0) [0|8191] "km/h" Vector__XXX
+ SG_ Wheel_Speed_FR_mph : 16|14@0+ (0.0388125,0) [0|5086.611] "mph" Vector__XXX
+ SG_ Wheel_Speed_FL_kph : 32|14@0+ (0.0625,0) [0|8191] "km/h" Vector__XXX
+ SG_ Wheel_Speed_FL_mph : 32|14@0+ (0.0388125,0) [0|5086.611] "mph" Vector__XXX
+
+BO_ 520 MSG_208: 8 Vector__XXX
+ SG_ Wheel_Speed_RL : 0|14@0+ (0.5,0) [0|8191] "rpm" Vector__XXX
+ SG_ Wheel_Speed_RR : 16|14@0+ (0.5,0) [0|8191] "rpm" Vector__XXX
+ SG_ Brake_Position : 32|12@0+ (0.0244,0) [0|100] "%" Vector__XXX
+
+BO_ 528 MSG_210: 8 Vector__XXX
+ SG_ Accelerator_Pedal_Position : 16|8@1+ (0.4,0) [0|100] "%" Vector__XXX
+
+BO_ 566 MSG_236: 8 Vector__XXX
+ SG_ Steering_Rate : 32|14@0+ (0.5,-2048) [-2048|2047] "��/s" Vector__XXX
+ SG_ Steering_Angle : 48|14@0+ (0.5,-2048) [-2048|2047] "��" Vector__XXX
+
+BO_ 768 MSG_300: 8 Vector__XXX
+ SG_ Yaw_Rate : 0|16@0+ (0.01,-327.68) [-327.68|327.66] "��/s" Vector__XXX
+
+BO_ 776 MSG_308: 8 Vector__XXX
+ SG_ Engine_Speed : 40|16@0+ (1,0) [0|65534] "rpm" Vector__XXX
+
+BO_ 808 MSG_328: 8 Vector__XXX
+ SG_ Indicated_Lateral_Acceleration : 16|8@1+ (0.08,-10.24) [-10.24|10.08] "m/s��" Vector__XXX
+
+BO_ 816 MSG_330: 8 Vector__XXX
+ SG_ Indicated_Longitudinal_Acceleration : 56|8@1+ (0.08,-10.24) [-10.24|10.08] "m/s��" Vector__XXX
+
+BO_ 1184 MSG_4A0: 8 Vector__XXX
+ SG_ Boost_Pressure : 24|8@0+ (0.008,-1) [-1|1.04] "" Vector__XXX
+
+BO_ 1544 MSG_608: 8 Vector__XXX
+ SG_ Coolant_Temperature : 0|8@1+ (1,-40) [-40|214] "��C" Vector__XXX
+ SG_ Fuel_Consumption : 8|16@0+ (0.217,0) [0|14200] "" Vector__XXX
+ SG_ Intake_Air_Temperature : 8|8@1+ (1,-40) [-40|214] "��C" Vector__XXX
+
