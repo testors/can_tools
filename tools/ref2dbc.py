@@ -29,12 +29,14 @@ ZLIB_HEADERS = {
     (0x78, 0xDA),
 }
 
+DBC_PLACEHOLDER_NODE = "Vector__XXX"
+
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        description="Decode a VBOX ref-format file and emit a DBC file."
+        description="Decode a ref-format file and emit a DBC file."
     )
-    parser.add_argument("input", help="Path to the VBOX ref file")
+    parser.add_argument("input", help="Path to the input ref file")
     parser.add_argument(
         "-o",
         "--output",
@@ -237,10 +239,13 @@ def write_dbc(output_path, messages):
         f.write("\tSIGTYPE_VALTYPE_\n")
         f.write("\tSG_MUL_VAL_\n\n")
         f.write("BS_: 500\n\n")
-        f.write("BU_: VBOX\n\n")
+        f.write(f"BU_: {DBC_PLACEHOLDER_NODE}\n\n")
 
         for can_id, message in messages.items():
-            f.write(f"BO_ {can_id} {message['name']}: {message['dlc']} VBOX\n")
+            f.write(
+                f"BO_ {can_id} {message['name']}: {message['dlc']} "
+                f"{DBC_PLACEHOLDER_NODE}\n"
+            )
             for signal in message["signals"]:
                 f.write(
                     f" SG_ {signal['name']} : "
@@ -250,7 +255,7 @@ def write_dbc(output_path, messages):
                     f'"'
                 )
                 write_escaped(f, signal["unit"])
-                f.write('" Vector__XXX\n')
+                f.write(f'" {DBC_PLACEHOLDER_NODE}\n')
             f.write("\n")
 
 

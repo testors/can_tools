@@ -55,7 +55,7 @@ def c_string(value: str) -> str:
 def parse_dbcs(dbcs_dir: Path):
     support = collections.Counter()
 
-    for path in sorted(dbcs_dir.glob("*.dbc")):
+    for path in sorted(dbcs_dir.rglob("*.dbc")):
         current_can_id: int | None = None
         current_dlc: int | None = None
         for line in path.read_text(encoding="utf-8", errors="replace").splitlines():
